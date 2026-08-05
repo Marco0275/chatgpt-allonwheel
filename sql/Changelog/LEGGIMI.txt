@@ -1,0 +1,81 @@
+====================================================================
+ ALLONWHEEL - PACCHETTO FINALE (da sovrapporre su V_3_15)
+====================================================================
+
+Questo zip contiene SOLO i file finali, gia' pronti da sovrascrivere,
+con la stessa struttura di cartelle del sito. Tutti verificati con
+"php -l" (nessun errore di sintassi) e con fine-riga Windows (CRLF).
+
+--------------------------------------------------------------------
+ COME APPLICARLO (passo passo)
+--------------------------------------------------------------------
+1) FAI UN BACKUP dei file attuali (o dell'intera cartella del sito).
+
+2) Estrai questo zip e COPIA le cartelle sulla radice del sito,
+   sovrascrivendo i file esistenti. Le cartelle (config, libs,
+   04_request_offer, 05_wanted, 06_company, 07_rent, 01_login) e i
+   file in radice (contact*.php) vanno negli stessi percorsi.
+
+   NOTA: "libs/antispam.php" e' un FILE NUOVO (non esisteva). E'
+   fondamentale: senza di esso login, registrazione e reset password
+   danno errore (richiamano una funzione che non esisteva).
+
+3) APRI "libs/antispam.php" e cambia UNA VOLTA la chiave segreta:
+       define('AOW_SPAM_SECRET', 'aow-antispam-2026-change-this');
+   Metti una tua stringa lunga e casuale. Serve a rendere il timer
+   antispam non falsificabile.
+
+4) NIENTE DATABASE: nessuna migration, nessuna tabella da toccare.
+
+5) PROVA dopo il caricamento:
+   - Compila un form (es. contact) con calma (piu' di 5 secondi) ->
+     deve inviare normalmente.
+   - Invia in meno di 5 secondi -> deve essere bloccato.
+   - Apri registrazione e reset password -> non devono piu' dare
+     errore (prima erano rotti).
+
+--------------------------------------------------------------------
+ COSA FA OGNI FILE
+--------------------------------------------------------------------
+NUOVO
+  libs/antispam.php ............ Antispam centralizzato (honeypot +
+      time-trap firmata + filtro link/parole). Parametri regolabili
+      in cima al file: AOW_SPAM_MIN_SECONDS (5), AOW_SPAM_MAX_SECONDS
+      (12h), AOW_SPAM_MAX_LINKS (2), AOW_SPAM_HONEYPOT, AOW_SPAM_WORDS,
+      AOW_SPAM_SECRET.
+
+PUBBLICAZIONE IMMEDIATA / LINK / DATI UTENTE
+  config/app_settings.php ...... Ogni annuncio nasce "approved"
+      (pubblicazione immediata, niente coda admin).
+  config/session_helper.php .... Redirect al login ASSOLUTO (via
+      BASE_URL): funziona da qualsiasi sottocartella (07_rent, 04, 05).
+  06_company/06_10_register_company.php .. Precompila i campi con i
+      dati dell'utente loggato (nome referente, email, telefono).
+  07_rent/07_20_rent_list.php .. Corretto il link "Post the first one"
+      (prima puntava a /07_rent/07_rent/...).
+
+PAGINA 04 (RICHIESTA OFFERTA)
+  04_request_offer/04_request_offer.php .. Un MENU A TENDINA per ogni
+      famiglia (Road / Special / Shelter) + campi antispam.
+  04_request_offer/04_send_offer.php ..... Legge le tendine (valori)
+      oltre alle vecchie checkbox + antispam centralizzato.
+
+ANTISPAM SUI FORM CHE INVIANO MAIL
+  contact.php / contact_submit.php ....... Form contatti.
+  contact_professional.php ............... Contatto a un professionista.
+  05_wanted/wanted_post.php .............. Annunci "cercasi".
+  07_rent/07_30_rent_request.php ......... Richiesta di noleggio (form).
+  07_rent/07_31_rent_request_save.php .... Richiesta di noleggio (salva).
+  01_login/newregister.php / register.php  Registrazione.
+  01_login/forgot_password.php / send_reset_link.php .. Reset password.
+
+--------------------------------------------------------------------
+ SE VUOI REGOLARE L'ANTISPAM IN FUTURO
+--------------------------------------------------------------------
+Tutto in cima a "libs/antispam.php", un punto solo:
+  - AOW_SPAM_MIN_SECONDS : abbassa (es. 3) se qualche utente veloce
+    viene bloccato per errore.
+  - AOW_SPAM_MAX_SECONDS : dopo quanto il form e' "scaduto".
+  - AOW_SPAM_MAX_LINKS   : quanti link tollerare nel messaggio.
+  - AOW_SPAM_WORDS       : parole che bloccano subito.
+====================================================================

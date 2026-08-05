@@ -1,0 +1,58 @@
+====================================================================
+ ALLONWHEEL - Autopublisher AI del blog (IT + traduzioni EN/FR/DE)
+ Testato end-to-end su MariaDB reale (11/11) con client AI simulato.
+====================================================================
+
+COSA FA
+- 1 articolo/giorno dal piano editoriale (tabella editorial_queue), generato in
+  ITALIANO con Gemini, PUBBLICATO subito, e tradotto/archiviato in EN/FR/DE.
+- Idempotente sul giorno (mai piu' di 1/giorno anche se il cron parte 2 volte).
+- Pubblica con la STESSA logica di blog_write/blog_save (classe BlogManager):
+  niente ArticlePublisher (che aveva colonne inesistenti seo_title/canonical).
+- Il blog mostra al visitatore la versione nella lingua scelta dal footer
+  (aow_locale), con fallback a EN. Le 4 versioni sono legate da translation_group.
+- I post UMANI: la lingua sorgente = quella del footer; la traduzione nelle altre
+  3 lingue viene accodata (blog_translation_jobs) e la esegue lo stesso cron.
+
+FILE (copia sulla root, sovrascrivendo)
+  sql/Changelog/2026-08-05_ai_blog_multilang.sql  migrazione (idempotente, 5.7-safe)
+  libs/blog.class.php        BlogManager esteso (insertLocalized, autore-per-email, listing per lingua)
+  libs/AiBlogClient.php      client AI (Gemini) + interfaccia
+  libs/AiBlogPublisher.php   orchestratore (coda -> genera -> pubblica -> traduce)
+  cron/blog_ai_daily.php     entrypoint giornaliero (CLI/cron, token)
+  blog.php                   listing per lingua corrente
+  blog_save.php              post umani: lingua sorgente + accoda traduzione
+
+AZIONI MANUALI (go-live)
+1) DB: esegui sql/Changelog/2026-08-05_ai_blog_multilang.sql (phpMyAdmin -> Import).
+2) .env (fuori webroot), aggiungi:
+     GEMINI_API_KEY=...            (la tua chiave Gemini, NUOVA - vedi sotto)
+     AI_BLOG_AUTHOR_EMAIL=candian46@gmail.com
+   CRON_TOKEN e' gia' presente.
+3) UTENTE AUTORE: l'account candian46@gmail.com DEVE esistere nel DB (users) con
+   piano gold. Se non c'e', il cron si ferma senza pubblicare (per sicurezza).
+4) CRON giornaliero su cron-job.org (come rfq_deliver):
+     https://www.allonwheel.com/cron/blog_ai_daily.php?token=IL_TUO_CRON_TOKEN
+   Frequenza: 1 volta al giorno (es. 06:00). Piu' spesso non serve: e' idempotente.
+
+COSTO GEMINI
+- ~4 chiamate/giorno per l'articolo AI (1 generazione + 3 traduzioni).
+- +3 chiamate per ogni post umano (max 3 job/run per non spendere troppo).
+
+SICUREZZA / NOTE ONESTE
+- >>> RUOTA E RIMUOVI le chiavi in config/API KEY.txt (ancora presente, datato
+    oggi): sono compromesse. Usa la chiave NUOVA solo in .env. <<<
+- AUTO-PUBBLICAZIONE PIENA (tua scelta): gli articoli vanno LIVE senza revisione.
+  Rischio contenuti errati + SEO Google "scaled content". Se un domani vuoi il
+  gate, basta pubblicare con status 'draft' in AiBlogPublisher::publishOne.
+- USA cron/blog_ai_daily.php, NON bin/scheduler.php: lo Scheduler esistente e'
+  fragile e la vecchia catena ArticleGenerator/EditorialQueue usa stati non validi
+  (PENDING/DONE) e AIManager::generate() inesistente. Il mio orchestratore la
+  bypassa e usa gli stati REALI (NEW->PROCESSING->PUBLISHED).
+- BlogWriter.php resta rotto/inutilizzato: non lo tocco (tua decisione).
+
+VERIFICA POST-DEPLOY
+- Lancia una volta a mano l'URL del cron col token: deve rispondere
+  "AI daily: {...ai_article: <id>, translations: 3...}".
+- Su /blog.php (EN) e /it/blog.php vedi la versione nella lingua giusta.
+====================================================================

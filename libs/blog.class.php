@@ -536,4 +536,110 @@ class BlogManager
         return $clean ? json_encode($clean, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
     }
 
+
+    /* ===== Estensioni Autopublisher AI multilingua (additive) ===== */
+
+    /** Risolve l'id_user autore a partire dall'email (per gli articoli AI). */
+    public function resolveAuthorIdByEmail(string $email): ?int
+    {
+        $st = $this->pdo->prepare("SELECT id_user FROM `users` WHERE email = :e LIMIT 1");
+        $st->execute([':e' => trim($email)]);
+        $id = $st->fetchColumn();
+        return $id !== false ? (int)$id : null;
+    }
+
+    /** Inserisce un articolo con lingua e gruppo-traduzione. Ritorna l'id. */
+    public function insertLocalized(array $data): int
+    {
+        $title = trim((string)($data['title'] ?? ''));
+        $body  = (string)($data['body'] ?? '');
+        if ($title === '' || trim($body) === '') {
+            throw new InvalidArgumentException('title and body are required');
+        }
+        $lang   = strtolower(substr(trim((string)($data['language'] ?? 'en')), 0, 2));
+        $status = $this->normalizeStatus((string)($data['status'] ?? 'published'));
+        $pub    = $this->resolvePublishedAt($status, $data['published_at'] ?? null);
+        $slug   = trim((string)($data['slug'] ?? '')) !== ''
+                ? $this->slugify((string)$data['slug'])
+                : $this->slugify($title);
+        $group  = $this->nz($data['translation_group'] ?? null);
+        $source = $this->nz($data['source'] ?? null) ?? 'ai';
+
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO `blog`
+               (id_user, title, slug, category, excerpt, question, body, outlines, faq_json,
+                image, status, published_at, language, translation_group, source)
+             VALUES
+               (:u, :t, :sl, :cat, :ex, :q, :b, :out, :faq,
+                :img, :st, :pub, :lang, :grp, :src)"
+        );
+        $stmt->execute([
+            ':u'   => (int)($data['id_user'] ?? 0),
+            ':t'   => $title,
+            ':sl'  => $slug,
+            ':cat' => $this->normalizeCategory($data['category'] ?? null),
+            ':ex'  => $this->nz($data['excerpt'] ?? null),
+            ':q'   => $this->nz($data['question'] ?? null),
+            ':b'   => $body,
+            ':out' => $this->nz($this->outlinesToText($data['outlines'] ?? null)),
+            ':faq' => $this->nz($this->faqToJson($data['faq'] ?? ($data['faq_json'] ?? null))),
+            ':img' => $this->nz($data['image'] ?? null),
+            ':st'  => $status,
+            ':pub' => $pub,
+            ':lang'=> $lang,
+            ':grp' => $group,
+            ':src' => $source,
+        ]);
+        return (int)$this->pdo->lastInsertId();
+    }
+
+    /** Listing pubblicati filtrati per lingua (con fallback a 'en' se vuoto). */
+    public function listPublishedByLang(?string $category, string $lang, int $limit = 5, int $offset = 0): array
+    {
+        $rows = $this->queryPublishedLang($category, $lang, $limit, $offset);
+        if (!$rows && strtolower($lang) !== 'en') {
+            $rows = $this->queryPublishedLang($category, 'en', $limit, $offset);
+        }
+        return $rows;
+    }
+    private function queryPublishedLang(?string $category, string $lang, int $limit, int $offset): array
+    {
+        try {
+            $where = "b.status='published' AND (b.published_at IS NULL OR b.published_at<=NOW()) AND LOWER(b.language)=:lang";
+            $params = [':lang' => strtolower(substr($lang,0,2))];
+            if ($category !== null && $category !== '') { $where .= " AND b.category=:cat"; $params[':cat']=$category; }
+            $sql = "SELECT b.*, u.username FROM `blog` b LEFT JOIN `users` u ON u.id_user=b.id_user
+                    WHERE $where ORDER BY COALESCE(b.published_at,b.created_at) DESC LIMIT :lim OFFSET :off";
+            $st = $this->pdo->prepare($sql);
+            foreach ($params as $k=>$v) { $st->bindValue($k,$v); }
+            $st->bindValue(':lim', max(1,$limit), PDO::PARAM_INT);
+            $st->bindValue(':off', max(0,$offset), PDO::PARAM_INT);
+            $st->execute();
+            return $st->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) { return []; }
+    }
+    public function countPublishedByLang(?string $category, string $lang): int
+    {
+        try {
+            $where = "status='published' AND (published_at IS NULL OR published_at<=NOW()) AND LOWER(language)=:lang";
+            $params = [':lang' => strtolower(substr($lang,0,2))];
+            if ($category !== null && $category !== '') { $where .= " AND category=:cat"; $params[':cat']=$category; }
+            $st = $this->pdo->prepare("SELECT COUNT(*) FROM `blog` WHERE $where");
+            $st->execute($params);
+            $n = (int)$st->fetchColumn();
+            if ($n === 0 && strtolower($lang) !== 'en') { return $this->countPublishedByLang($category, 'en'); }
+            return $n;
+        } catch (PDOException $e) { return 0; }
+    }
+
+    /** Versioni tradotte dello stesso articolo (per hreflang). */
+    public function translationsByGroup(?string $group): array
+    {
+        if ($group === null || $group === '') { return []; }
+        try {
+            $st = $this->pdo->prepare("SELECT id, slug, language FROM `blog` WHERE translation_group=:g AND status='published'");
+            $st->execute([':g'=>$group]);
+            return $st->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) { return []; }
+    }
 }

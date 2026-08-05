@@ -1,0 +1,108 @@
+############################################################
+#  AOW DEBUG AUDIT  —  2026-07-15 15:31
+#  Cartella: /home/claude/v22b/Allonwheel
+#  File PHP applicativi: 284  |  totali (incl. vendor): 2038
+############################################################
+
+════════════════════════════════════════════════════════════
+ 1) SINTASSI PHP (php -l) — errori BLOCCANTI
+════════════════════════════════════════════════════════════
+  ✓ Nessun errore di sintassi.
+
+════════════════════════════════════════════════════════════
+ 2) include/require verso file INESISTENTI
+════════════════════════════════════════════════════════════
+  ✓ Nessun include/require rotto.
+
+════════════════════════════════════════════════════════════
+ 3) VARIABILI usate PRIMA della definizione (classe di bug $aow_tbl)
+════════════════════════════════════════════════════════════
+aow_debug.sh: line 87: [: 0
+0: integer expression expected
+
+════════════════════════════════════════════════════════════
+ 4) INCOERENZA tabella: file che usano $aow_tbl MA anche una tabella hardcoded
+════════════════════════════════════════════════════════════
+  ✓ Nessun file incoerente (dinamico + hardcoded insieme).
+
+════════════════════════════════════════════════════════════
+ 5a) SQL INJECTION — query interpolate (escludo cast (int) sicuri)
+════════════════════════════════════════════════════════════
+  ✓ Nessuna query interpolata rischiosa (cast/whitelist ovunque).
+
+════════════════════════════════════════════════════════════
+ 5b) XSS — echo di variabili senza htmlspecialchars
+════════════════════════════════════════════════════════════
+  ✓ Nessun echo diretto di input utente non escapato.
+
+════════════════════════════════════════════════════════════
+ 6) CREDENZIALI / CONFIG esposti (grave)
+════════════════════════════════════════════════════════════
+  ✗ CREDENZIALI IN CHIARO: ./config/env_copia  [protetto da .htaccess (ma da rimuovere)]
+
+════════════════════════════════════════════════════════════
+ 7) FILE PUBBLICI PERICOLOSI nel webroot (dump DB, backup)
+════════════════════════════════════════════════════════════
+  ⚠ ./sql/allonwhe80316.sql
+  ⚠ ./mondocontainer/allonwhe99119.sql
+
+════════════════════════════════════════════════════════════
+ 8) RIFERIMENTI a file .php INESISTENTI (href/action)
+════════════════════════════════════════════════════════════
+aow_debug.sh: line 175: [: 0
+0: integer expression expected
+
+════════════════════════════════════════════════════════════
+ 9) FUNZIONI JS chiamate ma NON definite (anche <script> inline)
+════════════════════════════════════════════════════════════
+aow_debug.sh: line 207: [: 0
+0: integer expression expected
+
+════════════════════════════════════════════════════════════
+ 10) CSS — parentesi graffe sbilanciate
+════════════════════════════════════════════════════════════
+  ✓ Tutti i CSS hanno graffe bilanciate.
+
+════════════════════════════════════════════════════════════
+ 11) IGIENE (non bloccante): TODO/FIXME, file orfani, cartelle estranee
+════════════════════════════════════════════════════════════
+  · TODO/FIXME/XXX/HACK nei sorgenti:
+     totale: 1
+  · Residui Dreamweaver (_notes / dwsync.xml):
+     cartelle _notes: 39
+  · Cartelle sospette (fuori dallo schema del sito):
+     00_first/
+     01_login/
+     02_free_ads/
+     03_ads/
+     04_request_offer/
+     05_wanted/
+     06_company/
+     _notes/
+     cookie_banner/
+     mondocontainer/
+     upload_image/
+  · File con newline UNIX dove il progetto usa CRLF (primi 10):
+     ./libs/company_image_helper.class.php
+     ./libs/03_ads.class.php
+     ./libs/upload_helper.class.php
+     ./libs/02_free_ads.class.php
+     ./04_request_offer/04_rfq_pdf.php
+     ./sidebar_logged.php
+     ./mondocontainer/importa.php
+     ./ads.php
+     ./cookie_banner/consent_log.php
+     ./cookie_banner/cookie_banner.php
+
+════════════════════════════════════════════════════════════
+ RIEPILOGO — priorità di intervento
+════════════════════════════════════════════════════════════
+  🔴 CRITICI  (rompono o espongono): 1
+       lint=0  credenziali=1  var-undef=0  css-rotto=0
+  🟠 ALTI     (bug/sicurezza):       0
+       include-rotti=0  tabelle-hardcoded=0  sql-inj=0  xss=0  js-mancanti=0
+  🟡 MEDI     (igiene/robustezza):   2
+       dump-pubblici=2  link-morti=0
+
+  Ordine consigliato: prima i 🔴, poi 🟠, poi 🟡.
+  (Report di sola lettura: nessun file è stato modificato.)

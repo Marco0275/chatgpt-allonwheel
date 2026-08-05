@@ -21,11 +21,12 @@ $cat_param = $cat !== '' ? $cat : null;
 
 $per_page = 6;
 $page     = max(1, (int)($_GET['page'] ?? 1));
-$total    = $blog->countPublishedFiltered($cat_param);
+$aow_lang = function_exists('aow_locale') ? aow_locale() : 'en';
+$total    = $blog->countPublishedByLang($cat_param, $aow_lang);
 $pages    = max(1, (int)ceil($total / $per_page));
 if ($page > $pages) { $page = $pages; }
 $offset   = ($page - 1) * $per_page;
-$articles = $blog->listPublishedFiltered($cat_param, $per_page, $offset);
+$articles = $blog->listPublishedByLang($cat_param, $aow_lang, $per_page, $offset);
 
 $flash_ok  = $_SESSION['blog_success'] ?? '';
 $flash_err = $_SESSION['blog_error'] ?? '';
@@ -140,9 +141,9 @@ $first_paragraph = static function (string $body): string {
       <?php endif; ?>
       <p><?php echo htmlspecialchars($first_paragraph((string)$a['body'])); ?></p>
       <div class="post_meta">
-        <span class="cat"><strong>Posted by:</strong> <?php echo htmlspecialchars($author); ?></span>
-        | <strong>Date:</strong> <?php echo htmlspecialchars(date('j F Y', strtotime((string)($a['published_at'] ?? $a['created_at'])))); ?>
-        <a href="blog_post.php?<?php echo $slug_or_id; ?>" class="more float_r">Read the answer</a>
+        <span class="cat"><strong>Posted by:</strong> <?php echo htmlspecialchars($author); ?>
+        | <strong>Date:</strong> <?php echo htmlspecialchars(date('j F Y', strtotime((string)($a['published_at'] ?? $a['created_at'])))); ?></span>
+        <div class="float_r"><a href="blog_post.php?<?php echo $slug_or_id; ?>" class="more">Read the answer</a></div>
       </div>
     </div>
     <?php endforeach; ?>

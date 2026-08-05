@@ -61,17 +61,30 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE)
 
 // Stato iniziale. Cambiare in 'pending' per moderazione preventiva admin.
 $status = 'published';
+// Lingua sorgente = lingua del footer scelta dall'utente (dir. i18n).
+$aow_src_lang = function_exists('aow_locale') ? aow_locale() : 'en';
+$aow_tx_group = bin2hex(random_bytes(16));
 
 try {
     $blog = new BlogManager($pdo);
-    $new_id = $blog->insertArticle([
-        'id_user' => $id_user,
-        'title'   => $title,
-        'excerpt' => $excerpt,
-        'body'    => $body,
-        'image'   => $image_filename,
-        'status'  => $status,
+    $new_id = $blog->insertLocalized([
+        'id_user'           => $id_user,
+        'title'             => $title,
+        'excerpt'           => $excerpt,
+        'body'              => $body,
+        'image'             => $image_filename,
+        'status'            => $status,
+        'language'          => $aow_src_lang,
+        'translation_group' => $aow_tx_group,
+        'source'            => 'human',
     ]);
+    // Accoda la traduzione automatica nelle altre lingue (la esegue il cron).
+    if ($new_id > 0) {
+        try {
+            $pdo->prepare("INSERT IGNORE INTO blog_translation_jobs (blog_id, from_lang, translation_group, status) VALUES (:b,:l,:g,'pending')")
+                ->execute([':b'=>$new_id, ':l'=>$aow_src_lang, ':g'=>$aow_tx_group]);
+        } catch (Throwable $e) { error_log('[blog_save] enqueue traduzione: '.$e->getMessage()); }
+    }
 } catch (PDOException $e) {
     error_log('[Allonwheel] blog insert error: ' . $e->getMessage());
     // Cleanup immagine se l'insert fallisce

@@ -1,0 +1,52 @@
+====================================================================
+ ALLONWHEEL - FIX SICURI (sicurezza + namespace agente AI)
+ Da sovrapporre su V3_22_AI. Tutti i .php: php -l OK.
+====================================================================
+
+CONTENUTO (copia sulla root, rispettando le cartelle, sovrascrivendo)
+  config/.htaccess        -> deny-all HTTP sulla cartella config (blocca anche
+                             .txt/.env/.sql; i .php di config sono inclusi da PHP,
+                             non vanno mai serviti via web).
+  tests/.htaccess         -> deny-all (i test chiamano l'AI e mostrano errori).
+  tests/test_openai.php   -> fix namespace (use Libs\AIManager).
+  tests/test_parser.php   -> ripulito dal Markdown incollato per errore.
+  bin/.htaccess           -> deny-all (scheduler solo CLI/cron).
+  libs/ArticleGenerator.php -> fix namespace (use Libs\AIManager)  [SBLOCCA LA GENERAZIONE]
+  libs/Translator.php       -> fix namespace (use Libs\AIManager)
+
+--------------------------------------------------------------------
+ AZIONI MANUALI URGENTI (le devi fare TU: non si fanno da un pacchetto)
+--------------------------------------------------------------------
+1) REVOCA/RIGENERA SUBITO le chiavi presenti in config/API KEY.txt:
+   - OpenAI  (sk-proj-...)  -> platform.openai.com  -> revoca e crea nuova key.
+   - Gemini                 -> Google AI Studio      -> revoca e crea nuova key.
+   Sono da considerare COMPROMESSE (erano nel webroot ed in un file .txt
+   scaricabile, e ora anche nello ZIP che mi hai passato).
+2) CANCELLA il file  config/API KEY.txt  dal server (nessun codice lo legge:
+   e' inerte, serve solo a esporre le chiavi).
+3) Metti le chiavi NUOVE SOLO in ENV (mai in file dentro il webroot):
+   - GEMINI_API_KEY=...    (config/ai.php la legge gia' da getenv)
+   - se usi OpenAI: la relativa env prevista dal tuo config.
+   Il .htaccess di config indurito e' una rete di sicurezza, NON sostituisce
+   la revoca+cancellazione: una chiave gia' esposta va cambiata comunque.
+
+--------------------------------------------------------------------
+ NOTE
+--------------------------------------------------------------------
+- I deny-all bloccano solo l'HTTP: lo scheduler via CLI/cron continua a funzionare.
+- Il fix namespace risolve il fatal "Class AIManager not found" in
+  ArticleGenerator/Translator (AIManager e' l'unica classe in 'namespace Libs;').
+  Verificato: con 'use' istanzia Libs\AIManager; senza, andava in fatal.
+- NON ho toccato:
+  * libs/BlogWriter.php  -> save() e' incompleto (manca INSERT+return+'}').
+    Non e' incluso da nessuno, quindi non rompe il sito. Decidi tu se
+    completarlo o rimuoverlo: il writer "vero" sembra ArticleRepository.
+  * L'architettura dell'agente (bootstrap/controllers/models/repositories):
+    e' work-in-progress tuo, non la modifico senza tuo via libera.
+
+VERIFICA DOPO IL DEPLOY
+- Da browser: apri  https://www.allonwheel.com/config/API%20KEY.txt  -> deve dare
+  403/404 (non il contenuto). Idem  .../tests/test_openai.php  e  .../bin/scheduler.php
+- Da CLI/cron: lo scheduler gira; la generazione non deve piu' dare
+  "Class AIManager not found".
+====================================================================

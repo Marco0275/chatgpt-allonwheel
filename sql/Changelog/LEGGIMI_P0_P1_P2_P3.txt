@@ -1,0 +1,72 @@
+====================================================================
+ ALLONWHEEL - PACCHETTO FINALE P0 + P1 + P2 + P3 (su V_3_16)
+====================================================================
+48 file. Tutti i .php passano "php -l", i .js sono validi, i fine-riga
+preservati. Questo e' il pacchetto UNICO e definitivo: sostituisce gli
+zip parziali precedenti.
+
+--------------------------------------------------------------------
+ DEPLOY
+--------------------------------------------------------------------
+1) BACKUP.
+2) DB (una volta): sql/Changelog/2026-08_P0_consent_log_form.sql
+3) COPIA le cartelle sulla radice (sovrascrivi). File NUOVI:
+   includes/form_consent.php, legal.php, sql/Changelog/2026-08_P0_consent_log_form.sql
+4) CSP attiva: testa su STAGING; rollback = templatemo_CSP_ENFORCE=false.
+5) Imposta AOW_SPAM_SECRET e AOW_CONSENT_SALT se non gia' fatto.
+
+--------------------------------------------------------------------
+ COSA CONTIENE
+--------------------------------------------------------------------
+P0 - Sicurezza/legale: redirect single-hop (Apache), CSP attiva senza
+   'unsafe-inline', consenso privacy sui form + registro consent_log,
+   privacy/cookie/footer/legal con dati reali (All on Wheel Ltd, Delaware,
+   reg. 4355806, DPO Mark Canaan, hosting TOPHOST, analytics Histats).
+
+P1 - Accessibilita': reset rimossi + type email/tel; menu da tastiera
+   (ARIA/Esc/focus visibile); alt gia' descrittivi; onerror inline
+   sostituiti da fallback JS CSP-safe; lightbox accessibile al posto di
+   piroBox; Conditions.php linka le pagine legali.
+
+P2 - UX (gia' in gran parte presente in V_3_16):
+   - Breadcrumb + JSON-LD BreadcrumbList: gia' presenti (view_ad, browse,
+     family_page).
+   - Stati vuoti/errore: gia' presenti (shared/empty_state.php, "No
+     suppliers found" nella directory).
+   - NUOVO: CTA "Request quotation" STICKY su mobile nella scheda annuncio
+     (shared/view_ad.php + allonwheel_style.css).
+
+P3 - Performance/manutenibilita' (gia' in gran parte presente):
+   - Query: tutte gia' con prepared statement (PDO) - verificato.
+   - Header/menu/footer: gia' partial condivisi inclusi da ~92 pagine, con
+     stringhe nei file di traduzione (te()/t()).
+   - Immagini: loading="lazy"/decoding="async"/width/height gia' presenti;
+     infra WebP gia' pronta (includes/aow_media.php: aow_webp/aow_picture).
+   - Rate limiting: login gia' protetto (login_attempts). NUOVO: rate-limit
+     leggero per sessione su registrazione e reset password.
+
+--------------------------------------------------------------------
+ PUNTI CHE RICHIEDONO UNA TUA DECISIONE (non fatti)
+--------------------------------------------------------------------
+A) P2.12 - Menu a max 4 voci. Oggi il menu ha piu' voci di primo livello
+   (Home, Marketplace, Suppliers, Portfolio, About, ...) con duplicazioni
+   ("Shelter & Container" in due dropdown; "Request a quotation" ripetuto).
+   Proposta: 4 voci = Marketplace / Suppliers / Rental / About, + "Request
+   a quotation" come CTA fissa in header; Home resta sul logo; Portfolio
+   dentro About. RIDISEGNA la navigazione: meglio confermare la mappatura
+   prima di toccarla (impatta link e abitudini utenti). --> CONFERMA?
+
+B) P3.16 - Rimozione jQuery. Oggi il menu (ddsmoothmenu) DIPENDE da jQuery.
+   Toglierlo richiede prima sostituire ddsmoothmenu con un menu vanilla
+   (rischio su tutte le pagine). Lo faccio come lotto dedicato, ma va
+   deciso perche' e' il piu' invasivo. --> PROCEDO in un lotto a parte?
+
+C) P3.17 - WebP/AVIF. Il codice e' pronto (aow_picture usa .webp se esiste),
+   ma vanno GENERATI i file .webp/.avif dalle immagini (conversione lato
+   server/una tantum). E' un'operazione sugli ASSET, non sul codice.
+   --> Vuoi lo script di conversione batch (richiede accesso alle immagini)?
+
+D) P2.14 - Scheda annuncio "completa" (galleria + specifiche in tabella +
+   correlati). La CTA sticky e' fatta; il resto e' un ridisegno piu' ampio
+   della scheda: se vuoi, lo affronto come lotto UX dedicato. --> CONFERMA?
+====================================================================

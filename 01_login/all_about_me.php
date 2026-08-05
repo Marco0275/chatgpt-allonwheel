@@ -1,5 +1,32 @@
 <?php
 session_start();
+if (isset($_SESSION['session_id'])) {
+  $session_username = htmlspecialchars($_SESSION['session_username']);
+  $session_email = htmlspecialchars($_SESSION['session_email']);
+  $session_id = htmlspecialchars($_SESSION['session_id']);
+	$session_id_user = $_SESSION['session_id_user'];
+	$session_phone = htmlspecialchars($_SESSION['session_phone']);
+} else {
+  header('Location: /01_login/login.php');
+  exit();
+}
+
+// DB + CSRF (database.php carica anche bootstrap/BASE_URL e crea $pdo)
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/csrf.php';
+
+// Immagine del profilo corrente (per anteprima e per il cambio)
+$current_profile_image = '';
+try {
+  $stmt = $pdo->prepare('SELECT profile_image FROM users WHERE id_user = :id LIMIT 1');
+  $stmt->execute([':id' => (int)$session_id_user]);
+  $current_profile_image = (string)($stmt->fetchColumn() ?: '');
+} catch (PDOException $e) {
+  $current_profile_image = '';
+}
+$profile_preview = $current_profile_image !== ''
+  ? '/upload_image/profile/original/' . rawurlencode($current_profile_image)
+  : '../images/no_image.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,19 +73,17 @@ session_start();
     </div>
     <div class="cleaner"></div>
   </div>
-
  <div id="main"></div><div id="templatemo_content">
-
     <div class="post_box">
     <h2>My details</h2>
     <ul class="gallery m0">
       <li>
-        <a class="pirobox" href="../images/my_profile/profile.jpg" title="My Profile">
-        <img src="../images/my_profile/profile.jpg" alt="My Profile" width="100" height="100" border="0" loading="lazy" decoding="async" />
+        <a class="pirobox" title="My Profile">
+			<img src="<?php echo htmlspecialchars($profile_preview, ENT_QUOTES, 'UTF-8'); ?>" width="200" height="150" alt="" loading="lazy" decoding="async" />
         </a>
       </li>
     </ul>
-    <p><em>Name and Surname</em></p>
+    <p><em><?php echo $session_username; ?></em></p>
     <p>If you're thinking about renting out your vehicle, you can add to our pages to find buyers.
      Your free ad will help you rent out your vehicle while you're not using it. If you want
      to sell it, there is another page which can help with that too. Renting or Selling when

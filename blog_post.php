@@ -166,9 +166,10 @@ $canon = 'blog_post.php?' . ($slug !== '' ? 'slug=' . rawurlencode($slug) : 'id=
      <?php endforeach; ?>
 
      <div class="post_meta">
-       <span class="cat"><strong>Posted by:</strong> <?php echo htmlspecialchars($author); ?><?php if ($author_expert): ?> <span class="badge">Expert</span><?php endif; ?></span>
-       | <strong>Date: </strong><?php echo htmlspecialchars(date('j F Y', strtotime((string)($article['published_at'] ?? $article['created_at'])))); ?>
-       <a href="blog.php" class="more float_r">Back</a>
+       <span class="cat">
+		   <strong>Posted by:</strong> <?php echo htmlspecialchars($author); ?><?php if ($author_expert): ?> <span class="badge">Expert</span><?php endif; ?>
+       | <strong>Date: </strong><?php echo htmlspecialchars(date('j F Y', strtotime((string)($article['published_at'] ?? $article['created_at'])))); ?></span>
+       <div class="float_r"><a href="blog.php" class="more">Back</a></div>
      </div>
    </div>
 

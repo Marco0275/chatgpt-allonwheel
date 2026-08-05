@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: m-10.th.seeweb.it
--- Creato il: Ago 05, 2026 alle 14:15
+-- Creato il: Ago 05, 2026 alle 23:10
 -- Versione del server: 5.7.42
 -- Versione PHP: 7.4.33
 
@@ -473,7 +473,8 @@ INSERT INTO `admin_audit_log` (`id`, `admin_user_id`, `action`, `target_user_id`
 (210, 33, 'admin_login', NULL, 'Admin login successful', '127.0.0.2', '2026-08-02 16:13:18'),
 (211, 33, 'admin_login', NULL, 'Admin login successful', '127.0.0.2', '2026-08-02 17:03:22'),
 (212, 33, 'admin_logout', NULL, 'Admin logout', '127.0.0.2', '2026-08-02 17:04:12'),
-(213, 33, 'admin_login', NULL, 'Admin login successful', '127.0.0.2', '2026-08-03 08:58:14');
+(213, 33, 'admin_login', NULL, 'Admin login successful', '127.0.0.2', '2026-08-03 08:58:14'),
+(214, 33, 'admin_login', NULL, 'Admin login successful', '127.0.0.2', '2026-08-05 22:52:40');
 
 -- --------------------------------------------------------
 
@@ -530,6 +531,18 @@ CREATE TABLE `ad_drafts` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `ai_daily_log`
+--
+
+CREATE TABLE `ai_daily_log` (
+  `run_date` date NOT NULL,
+  `blog_id` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `ai_logs`
 --
 
@@ -558,6 +571,7 @@ CREATE TABLE `blog` (
   `slug` varchar(220) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Slug SEO univoco',
   `category` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Slug categoria (blog_categories.slug)',
   `language` char(2) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'EN',
+  `translation_group` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'UUID condiviso dalle versioni tradotte',
   `excerpt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Sommario breve (riga in corsivo)',
   `question` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Domanda dell utente (Ask the Experts)',
   `body` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Corpo articolo; paragrafi separati da newline',
@@ -636,6 +650,23 @@ CREATE TABLE `blog_leads` (
   `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Lead B2B raccolti dai form a fine articolo del blog';
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `blog_translation_jobs`
+--
+
+CREATE TABLE `blog_translation_jobs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `blog_id` int(10) UNSIGNED NOT NULL,
+  `from_lang` char(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `translation_group` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('pending','done','error') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `attempts` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
+  `error_message` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -933,7 +964,73 @@ INSERT INTO `consent_log` (`id`, `consent_id`, `ip_hash`, `user_agent`, `categor
 (270, '868e4b44-90a2-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 09:51:54'),
 (271, '890684fe-90a2-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 09:51:58'),
 (272, 'a4da2aee-90a5-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 10:14:13'),
-(273, 'abd421e1-90a5-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 10:14:25');
+(273, 'abd421e1-90a5-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 10:14:25'),
+(274, '4fdf61a4-90cb-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 14:43:51'),
+(275, '51ed79f0-90cb-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 14:43:55'),
+(276, '52b65c01-90cb-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 14:43:56'),
+(277, '547d51ae-90cb-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 14:43:59'),
+(278, '467be2da-90d7-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:09:30'),
+(279, '512baaa4-90d7-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:09:47'),
+(280, 'ff57deb9-90d9-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:28:59'),
+(281, '0101d0e9-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:01'),
+(282, '12fc31b7-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:32'),
+(283, '1599d609-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:36'),
+(284, '170e9446-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:38'),
+(285, '1bd93157-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:46'),
+(286, '21d24345-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:56'),
+(287, '22aee5f1-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:58'),
+(288, '23755efd-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:29:59'),
+(289, '23ee0e04-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:30:00'),
+(290, '244c7d5f-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:30:01'),
+(291, '2a6aab11-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:30:11'),
+(292, '33cf9422-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:30:27'),
+(293, '35b31c02-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:30:30'),
+(294, '3f6bee3c-90da-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 16:30:46'),
+(295, '9c24afb8-90ef-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Mobile/15E148 Safari/604.1', '{\"v\": \"1.0\", \"analytics\": false, \"marketing\": false}', '1.0', 'deny', NULL, '2026-08-05 19:03:41'),
+(296, '07ab8f12-9100-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Mobile/15E148 Safari/604.1', '{\"v\": \"1.0\", \"analytics\": false, \"marketing\": false}', '1.0', 'deny', NULL, '2026-08-05 21:01:13'),
+(297, 'd9463105-910b-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:25:50'),
+(298, 'e10102d4-910b-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:26:03'),
+(299, 'e2a9bd1d-910b-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:26:05'),
+(300, 'b1cc37b1-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"scope\": \"registration\", \"terms\": true, \"privacy\": true, \"user_id\": 42, \"marketing\": true}', 'reg-1.0', 'grant', NULL, '2026-08-05 22:31:53'),
+(301, 'b2d2384b-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:31:55'),
+(302, 'bc0389a4-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:32:10'),
+(303, 'bf41609f-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:32:15'),
+(304, 'd67cbe20-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:32:54'),
+(305, 'dadd32c9-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:02'),
+(306, 'e57faf78-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:20'),
+(307, 'e7e5dc3a-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:24'),
+(308, 'e8d230da-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:25'),
+(309, 'eab25acf-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:28'),
+(310, 'ee4961dd-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:34'),
+(311, 'f96cc614-910c-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:33:53'),
+(312, '1c3693c1-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:34:51'),
+(313, '1d39b559-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:34:53'),
+(314, '1e196148-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:34:55'),
+(315, '1f2f66ea-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:34:56'),
+(316, 'c14a2103-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:39:28'),
+(317, 'c26ea692-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:39:30'),
+(318, 'dc4ae3eb-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:14'),
+(319, 'de238ba3-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:17'),
+(320, 'df0add4f-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:18'),
+(321, 'e695bb77-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:31');
+INSERT INTO `consent_log` (`id`, `consent_id`, `ip_hash`, `user_agent`, `categories`, `consent_version`, `action`, `form`, `created_at`) VALUES
+(322, 'e7653155-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:32'),
+(323, 'ef3dc474-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:45'),
+(324, 'f50e4183-910d-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:40:55'),
+(325, '0c93c08d-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:41:35'),
+(326, '22bd0076-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:42:12'),
+(327, '24198595-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:42:14'),
+(328, '24fa3df0-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:42:16'),
+(329, '261bbfcb-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:42:18'),
+(330, '57f4be66-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:43:41'),
+(331, '9a38f379-910e-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:45:32'),
+(332, '4ec355a5-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:50:35'),
+(333, '522ab388-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:50:41'),
+(334, '560e44a7-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:50:47'),
+(335, '6171f389-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:51:07'),
+(336, '707a2d3b-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:51:32'),
+(337, '92ab4243-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:52:29'),
+(338, '9662d7fc-910f-11f1-ad29-525400192758', 'f376df726c6dae071fa355c7a56167444c16d60aab5a5527309c52fa623c0a99', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0', '{\"v\": \"1.0\", \"analytics\": true, \"marketing\": true}', '1.0', 'grant', NULL, '2026-08-05 22:52:35');
 
 -- --------------------------------------------------------
 
@@ -1010,7 +1107,9 @@ INSERT INTO `login_attempts` (`id`, `email`, `ip_address`, `attempted_at`) VALUE
 (86, 'p.a.v.i.1.98.6@gmail.com', '127.0.0.2', '2026-08-05 00:49:58'),
 (87, 'invoice.3k@3kronor.com', '127.0.0.2', '2026-08-05 03:52:00'),
 (88, 'anguz_chris@hotmail.com', '127.0.0.2', '2026-08-05 07:33:25'),
-(89, 'vitilevu@hanmail.net', '127.0.0.2', '2026-08-05 07:33:39');
+(89, 'vitilevu@hanmail.net', '127.0.0.2', '2026-08-05 07:33:39'),
+(90, 'saber@vtgooo.com', '127.0.0.2', '2026-08-05 14:57:05'),
+(91, 'Oliver Smith', '127.0.0.2', '2026-08-05 22:33:01');
 
 -- --------------------------------------------------------
 
@@ -1187,7 +1286,7 @@ CREATE TABLE `seller_statistics` (
 --
 
 INSERT INTO `seller_statistics` (`id`, `id_ads`, `ad_table`, `views`, `unique_views`, `rfq_received`, `pdf_downloads`, `phone_clicks`, `whatsapp_clicks`, `updated_at`) VALUES
-(1, 95, '02_free_ads', 17, 12, 0, 0, 0, 0, '2026-08-05 03:25:44');
+(1, 95, '02_free_ads', 18, 13, 0, 0, 0, 0, '2026-08-05 19:49:55');
 
 -- --------------------------------------------------------
 
@@ -1304,7 +1403,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `username`, `phone`, `profile_image`, `email`, `password`, `email_verification_token`, `is_verified`, `reset_token`, `reset_expires`, `created_at`, `user_tier`, `premium_requested`, `premium_requested_at`, `premium_granted_at`, `public_contact`) VALUES
 (33, 'Marco', '+3930000', 'profile_33_5c03059e9ae98c85.jpg', 'marco.candian@yahoo.it', '$2y$12$qByZmKYPMc6QOU.W9LSFA.9eiRijHg/vrcGju6qUZGMFiAokoJIE6', NULL, 1, NULL, NULL, '2026-04-28 07:45:56', 'admin', 0, NULL, NULL, 1),
-(41, 'All_on_Wheel', '+39020000', 'profile_faa997e627c7bc4c.jpg', 'info@allonwheel.com', '$2y$10$2qRZkWHPph3qEgPPqKkhBeXu1ua919CkAxSL70xywJQd9BMtSRYIS', NULL, 1, NULL, NULL, '2026-08-02 14:48:57', 'free', 0, NULL, NULL, 0);
+(41, 'All_on_Wheel', '+39020000', 'profile_faa997e627c7bc4c.jpg', 'info@allonwheel.com', '$2y$10$2qRZkWHPph3qEgPPqKkhBeXu1ua919CkAxSL70xywJQd9BMtSRYIS', NULL, 1, NULL, NULL, '2026-08-02 14:48:57', 'free', 0, NULL, NULL, 0),
+(42, 'Oliver Smith', '+393209536273', 'profile_f5700a99ed697207.png', 'candian46@gmail.com', '$2y$10$0c.sbDGowJKon50CEaA5ge.2p.pjOlMr2A9d1ly0pX4oAba5VkP5i', NULL, 1, NULL, NULL, '2026-08-05 20:31:53', 'admin', 0, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1341,7 +1441,10 @@ INSERT INTO `user_roles` (`id`, `user_id`, `role`, `created_at`) VALUES
 (30, 33, 'project_manager', '2026-07-29 14:55:49'),
 (32, 41, 'expert', '2026-08-02 14:48:57'),
 (33, 41, 'project_manager', '2026-08-02 14:48:57'),
-(34, 41, 'consultant', '2026-08-02 14:48:57');
+(34, 41, 'consultant', '2026-08-02 14:48:57'),
+(35, 42, 'expert', '2026-08-05 20:31:53'),
+(36, 42, 'project_manager', '2026-08-05 20:31:53'),
+(37, 42, 'consultant', '2026-08-05 20:31:53');
 
 -- --------------------------------------------------------
 
@@ -1558,6 +1661,12 @@ ALTER TABLE `ad_drafts`
   ADD KEY `idx_draft_expires` (`expires_at`);
 
 --
+-- Indici per le tabelle `ai_daily_log`
+--
+ALTER TABLE `ai_daily_log`
+  ADD PRIMARY KEY (`run_date`);
+
+--
 -- Indici per le tabelle `ai_logs`
 --
 ALTER TABLE `ai_logs`
@@ -1578,7 +1687,9 @@ ALTER TABLE `blog`
   ADD KEY `language` (`language`),
   ADD KEY `parent_id` (`parent_id`),
   ADD KEY `queue_id` (`queue_id`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `ix_blog_lang_status` (`language`,`status`),
+  ADD KEY `ix_blog_txgroup` (`translation_group`);
 
 --
 -- Indici per le tabelle `blog_categories`
@@ -1604,6 +1715,14 @@ ALTER TABLE `blog_leads`
   ADD KEY `ix_leads_blog` (`id_blog`);
 
 --
+-- Indici per le tabelle `blog_translation_jobs`
+--
+ALTER TABLE `blog_translation_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_btj_blog` (`blog_id`),
+  ADD KEY `ix_btj_status` (`status`);
+
+--
 -- Indici per le tabelle `consent_log`
 --
 ALTER TABLE `consent_log`
@@ -1616,6 +1735,7 @@ ALTER TABLE `consent_log`
 ALTER TABLE `editorial_queue`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `uq_eq_source` (`source_file`(150),`source_row`),
   ADD KEY `status` (`status`),
   ADD KEY `publish_at` (`publish_at`),
   ADD KEY `language` (`language`),
@@ -1833,7 +1953,7 @@ ALTER TABLE `07_rent_request_recipients`
 -- AUTO_INCREMENT per la tabella `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT per la tabella `ads_documents`
@@ -1884,10 +2004,16 @@ ALTER TABLE `blog_leads`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la tabella `blog_translation_jobs`
+--
+ALTER TABLE `blog_translation_jobs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `consent_log`
 --
 ALTER TABLE `consent_log`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=339;
 
 --
 -- AUTO_INCREMENT per la tabella `editorial_queue`
@@ -1899,7 +2025,7 @@ ALTER TABLE `editorial_queue`
 -- AUTO_INCREMENT per la tabella `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT per la tabella `product_macros`
@@ -1935,7 +2061,7 @@ ALTER TABLE `saved_searches`
 -- AUTO_INCREMENT per la tabella `seller_statistics`
 --
 ALTER TABLE `seller_statistics`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT per la tabella `social_posts`
@@ -1953,13 +2079,13 @@ ALTER TABLE `special_types`
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT per la tabella `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT per la tabella `vehicle_types`

@@ -1,0 +1,86 @@
+====================================================================
+ ALLONWHEEL - LOTTO P0 (Sicurezza + Conformita' legale) - FINALE
+ Da sovrapporre su V_3_16. Struttura cartelle gia' corretta.
+====================================================================
+
+Tutti i file .php passano "php -l"; i .js sono validi; i fine-riga sono
+preservati (.htaccess in LF come l'originale, gli altri CRLF).
+IMPORTANTE: usa QUESTO footer.php (contiene tutte le modifiche P0).
+
+--------------------------------------------------------------------
+ PASSI DI DEPLOY
+--------------------------------------------------------------------
+1) BACKUP del sito.
+
+2) DATABASE (una volta): esegui
+   sql/Changelog/2026-08_P0_consent_log_form.sql
+   (aggiunge la colonna `form` alla tabella consent_log; idempotente, MySQL 5.7).
+
+3) COPIA i file sulle rispettive cartelle (sovrascrivi). File NUOVI:
+   - includes/form_consent.php
+   - legal.php
+   - sql/Changelog/2026-08_P0_consent_log_form.sql
+
+4) TEST consigliato su STAGING prima del live (la CSP e' l'unico punto
+   che puo' rompere visivamente). Se qualcosa non va, rollback CSP:
+   in config/security_headers.php metti templatemo_CSP_ENFORCE = false.
+
+--------------------------------------------------------------------
+ FILE E CARTELLE DI DESTINAZIONE
+--------------------------------------------------------------------
+P0.1 Redirect (un solo hop -> https://www., via Apache):
+   /.htaccess
+
+P0.2 CSP attiva senza 'unsafe-inline' + Histats consent-gated:
+   /config/security_headers.php
+   /includes/histats.php
+   /footer.php                      (versione FINALE: P0.2+P0.5+P0.6)
+   /01_login/reset_password.php
+   /02_free_ads/02_00_select_type.php
+   /03_ads/03_00_select_type.php
+   /js/site_init.js
+
+P0.3 Consenso privacy sui form + registro consensi:
+   /includes/form_consent.php       (NUOVO)
+   /sql/Changelog/2026-08_P0_consent_log_form.sql (NUOVO)
+   /contact.php  /contact_submit.php
+   /04_request_offer/04_request_offer.php  /04_request_offer/04_send_offer.php
+   /05_wanted/wanted_post.php
+   /07_rent/07_30_rent_request.php  /07_rent/07_31_rent_request_save.php
+
+P0.4 Privacy policy (dati reali):
+   /privacy.php
+
+P0.5 Cookie policy (tabella per-cookie + "Cookie preferences"):
+   /cookie-policy.php
+   /footer.php                      (stesso file finale sopra)
+   /js/cookie_consent.js
+
+P0.6 Footer legale (su ogni pagina/lingua):
+   /footer.php                      (stesso file finale sopra)
+
+P0.7 Pagina Legal & seller (P2B / ODR / intermediario / recesso):
+   /legal.php                       (NUOVO)
+
+--------------------------------------------------------------------
+ VERIFICHE RAPIDE
+--------------------------------------------------------------------
+- Redirect: curl -sI http://allonwheel.com/  e le 3 varianti -> UN solo
+  301 verso https://www.allonwheel.com/...
+- CSP: apri le pagine con la console -> nessuna violazione CSP.
+- Consenso cookie: a browser pulito nessuna chiamata a histats.com;
+  "Cookie preferences" (footer) riapre il banner; dopo Accept -> Histats.
+- Consenso form: invio senza spunta -> bloccato; con spunta -> in DB
+  SELECT * FROM consent_log WHERE form='contact' ORDER BY id DESC LIMIT 1.
+- Legali: /privacy.php e /legal.php con dati corretti; riga legale nel footer.
+
+--------------------------------------------------------------------
+ NOTE
+--------------------------------------------------------------------
+- SMTP: nella privacy e' indicato "mail del provider di hosting"; se usi
+  un SMTP esterno, dimmelo e lo nomino.
+- Revisione legale: privacy.php e legal.php sono conformi come struttura
+  ma vanno fatti rivedere da un legale prima del "definitivo".
+- Chiave antispam/consenso: se non l'hai gia' fatto, imposta un
+  AOW_CONSENT_SALT (in config) per l'hash dell'IP nel registro consensi.
+====================================================================

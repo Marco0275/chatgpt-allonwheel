@@ -1,0 +1,71 @@
+====================================================================
+ ALLONWHEEL - PACCHETTO FINALE P0 + P1 (da sovrapporre su V_3_16)
+====================================================================
+46 file. Tutti i .php passano "php -l", i .js sono validi, i fine-riga
+sono preservati. QUESTO pacchetto SOSTITUISCE il precedente zip solo-P0
+(alcuni file - es. footer.php, js/site_init.js, contact.php - contengono
+sia le modifiche P0 sia le P1).
+
+--------------------------------------------------------------------
+ PASSI DI DEPLOY
+--------------------------------------------------------------------
+1) BACKUP del sito.
+2) DATABASE (una volta): esegui sql/Changelog/2026-08_P0_consent_log_form.sql
+3) COPIA le cartelle sulla radice del sito (sovrascrivi). File NUOVI:
+   includes/form_consent.php, legal.php, sql/Changelog/2026-08_P0_consent_log_form.sql
+4) In config/security_headers.php la CSP e' ATTIVA (enforce). Testa su
+   STAGING: se qualcosa non carica, rollback = templatemo_CSP_ENFORCE=false.
+5) In libs/antispam.php / config: imposta AOW_SPAM_SECRET e AOW_CONSENT_SALT
+   (se non gia' fatto).
+
+--------------------------------------------------------------------
+ P0 - Sicurezza e conformita' (gia' descritto nel LEGGIMI_P0)
+--------------------------------------------------------------------
+Redirect single-hop (Apache /.htaccess); CSP attiva senza 'unsafe-inline';
+consenso privacy sui form + registro consent_log; privacy.php/cookie-policy.php/
+footer legale/legal.php con dati reali (All on Wheel Ltd, Delaware, reg. 4355806,
+DPO Mark Canaan webmaster@allonwheel.com, hosting TOPHOST, analytics Histats).
+
+--------------------------------------------------------------------
+ P1 - Accessibilita' (WCAG 2.1 AA / EAA)
+--------------------------------------------------------------------
+P1.8 FORM: rimossi tutti i pulsanti <input type="reset">; email -> type="email",
+   telefono -> type="tel"; le <label for> erano gia' presenti sui form principali.
+   File: contact.php, 04_request_offer/04_request_offer.php,
+   06_company/06_10_register_company.php, 01_login/newlogin.php,
+   01_login/already_registered.php, 01_login/mydetails.php,
+   03_ads/03_error_insert_tech.php, 03_ads/03_insert_tech_details.php
+
+P1.9 MENU: menu navigabile da tastiera con ARIA (role, aria-haspopup,
+   aria-expanded), apertura sottomenu al focus (CSS li:focus-within),
+   Esc per chiudere, outline di focus visibile >= 3:1.
+   File: js/site_init.js, allonwheel_style.css
+
+P1.10 CONTRASTO/ALT/HEADING: outline :focus-visible su link/campi/bottoni,
+   skip-link (gia' presente) rifinito; le immagini annunci/loghi hanno gia'
+   alt descrittivi; un solo <h1> (gestito in header.php).
+   Inoltre: i gestori inline onerror sulle immagini (che la CSP bloccava)
+   sono stati RIMOSSI e sostituiti da un fallback JS globale (CSP-safe).
+   File: allonwheel_style.css, js/site_init.js + 18 file con immagini.
+
+P1.11 LIGHTBOX: piroBox (non accessibile) sostituito da una lightbox
+   accessibile: role="dialog" aria-modal, Esc, frecce, focus trap, ritorno
+   del focus al link. Stesso markup (a.pirobox): nessuna modifica alle pagine.
+   File: js/site_init.js (l'init piroBox e' stato rimosso), allonwheel_style.css
+
+Extra: Conditions.php ora linka Legal & seller info, Privacy policy, Cookie policy.
+
+--------------------------------------------------------------------
+ VERIFICHE
+--------------------------------------------------------------------
+- Redirect: curl -sI su ogni variante -> UN solo 301 a https://www.
+- CSP: console pulita (zero violazioni) sulle pagine principali.
+- Tastiera: TAB naviga menu e form; sottomenu si aprono al focus; Esc chiude.
+- Lightbox: click su una foto -> si apre il dialog; Esc/frecce funzionano;
+  chiudendo, il focus torna alla foto.
+- Immagini rotte: mostrano no_image.jpg (fallback JS), senza errori CSP.
+- Lighthouse Accessibility target >= 95; axe-core 0 critical/serious.
+
+NOTE: privacy.php e legal.php vanno fatti rivedere da un legale prima del
+definitivo. La CSP e la lightbox vanno testate su staging prima del live.
+====================================================================

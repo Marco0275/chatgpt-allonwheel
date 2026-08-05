@@ -1,0 +1,44 @@
+====================================================================
+ ALLONWHEEL - Histats ALWAYS-ON (conteggio senza gate del consenso)
+====================================================================
+FILE:  includes/histats.php   (sostituisce la versione consent-gated)
+
+COSA CAMBIA
+- Prima: Histats partiva SOLO col consenso 'analytics' (definiva
+  window.aowLoadHistats(), chiamato da js/cookie_consent.js). Se non accettavi,
+  non contava: era il comportamento GDPR voluto (dir. 20).
+- Ora: Histats parte SUBITO, per tutti i visitatori (come lo snippet che mi hai
+  dato). ID gia' impostato (4703110), parametri e noscript identici al tuo.
+- E' incluso una sola volta dal footer.php (gia' cablato): copia solo questo file.
+
+>>> IMPLICAZIONE GDPR (te la segnalo, e' una tua scelta)
+  Always-on = Histats imposta cookie PRIMA del consenso. Per i visitatori UE
+  NON e' conforme. Se vuoi restare compliant, tieni invece la versione gated e
+  verifica il flusso consenso (vedi sotto). Il file e' pronto per entrambe le
+  strade: questa e' la always-on.
+
+VERIFICA (2 minuti)
+1) Apri una pagina del sito -> tasto destro -> Ispeziona -> scheda Network ->
+   ricarica: deve comparire la richiesta a  s10.histats.com/js15_as.js  (status 200).
+2) Sul pannello Histats (histats.com) i "Real time / hits" salgono entro pochi
+   minuti. Nota: le tue stesse visite contano solo se non sei filtrato dai tuoi
+   settaggi Histats.
+
+SE ANCORA NON CONTA (cause tipiche, in ordine)
+- Ad-blocker / Brave / uBlock bloccano s10.histats.com nel TUO browser: prova
+  in incognito senza estensioni, o da un altro dispositivo/rete.
+- CSP: e' gia' permessa (script-src/img-src includono s10 e sstatic1). Se in
+  futuro passi la CSP a 'enforce' e vedi errori Histats in console, aggiungi
+  gli host histats anche a  connect-src  in config/security_headers.php.
+- Config account Histats: verifica che il codice 4703110 sia attivo e che il
+  dominio allonwheel.com sia quello registrato.
+
+PULIZIA (facoltativa)
+- Esiste un duplicato MORTO  cookie_banner/cookie_consent.js  (NON caricato: il
+  banner carica /js/cookie_consent.js). Puoi rimuoverlo per evitare confusione.
+
+RITORNO ALLA VERSIONE COMPLIANT
+- Se vuoi tornare al consent-gated, ripristina il vecchio includes/histats.php
+  (quello che definiva window.aowLoadHistats) e accetta "Analytics" nel banner
+  per far partire il conteggio.
+====================================================================

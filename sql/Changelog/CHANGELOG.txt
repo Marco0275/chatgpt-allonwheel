@@ -1,0 +1,24 @@
+ALLONWHEEL - FIX SICURI (2026-08-04)  [base: V3_22_AI]
+
+SICUREZZA
+- config/.htaccess: deny-all HTTP sulla cartella config (prima bloccava solo
+  .env/.ini/.sql e il deny-all valeva solo su Apache <2.4; API KEY.txt era
+  scaricabile su 2.4). Ora blocca tutto l'accesso diretto via web.
+- tests/.htaccess (NUOVO) + bin/.htaccess (NUOVO): deny-all. I test chiamavano
+  l'AI al caricamento (costo/abuso) e mostravano errori; bin/scheduler.php era
+  HTTP-triggerabile.
+
+BUG (flusso AI)
+- libs/ArticleGenerator.php, libs/Translator.php: aggiunto 'use Libs\AIManager;'.
+  AIManager e' l'unica classe in namespace Libs; le chiamate 'new AIManager()'
+  in namespace globale andavano in fatal "Class not found". Verificato a runtime.
+- tests/test_openai.php: stesso fix namespace.
+- tests/test_parser.php: rimosso il Markdown incollato per errore (parse error).
+
+NON TOCCATO (richiede tua decisione)
+- libs/BlogWriter.php: save() incompleto (manca INSERT+return+'}'); non incluso
+  da alcun file, non rompe il sito. Completare o rimuovere (writer reale:
+  ArticleRepository).
+
+AZIONI MANUALI URGENTI: revoca+rigenera le chiavi OpenAI/Gemini, cancella
+config/API KEY.txt, metti le chiavi solo in ENV. Vedi LEGGIMI_FIX.txt.

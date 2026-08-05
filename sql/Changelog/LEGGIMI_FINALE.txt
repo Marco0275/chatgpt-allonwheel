@@ -1,0 +1,52 @@
+====================================================================
+ ALLONWHEEL - PACCHETTO DEFINITIVO (P0..P3 + ultime direttive) su V_3_16
+====================================================================
+~102 file. Tutti i .php passano "php -l", i .js validi, fine-riga preservati.
+Pacchetto UNICO: sostituisce tutti gli zip precedenti.
+
+TEST SU STAGING prima del live: menu (aperto da hover/tastiera), lightbox
+piroBox sulle gallerie, e la CSP (rollback = templatemo_CSP_ENFORCE=false).
+
+DEPLOY: 1) backup 2) esegui sql/Changelog/2026-08_P0_consent_log_form.sql
+3) copia le cartelle (sovrascrivi) 4) opz. genera WebP con
+tools/aow_convert_webp.php poi rimuovilo 5) imposta AOW_SPAM_SECRET e
+AOW_CONSENT_SALT.
+
+--------------------------------------------------------------------
+ SINTESI
+--------------------------------------------------------------------
+P0 Sicurezza/legale: redirect single-hop (Apache), CSP attiva senza
+   'unsafe-inline', consenso privacy sui form + registro consent_log,
+   privacy/cookie/footer/legal con dati reali.
+P1 Accessibilita': reset rimossi + type email/tel; menu tastiera (ARIA/Esc/
+   focus); onerror -> fallback JS CSP-safe; Conditions.php linka le pagine legali.
+P2 UX: menu a 4 voci (Marketplace/Suppliers/Rental/About) + CTA "Request a
+   quote"; breadcrumb+JSON-LD e stati vuoti gia' presenti; CTA sticky mobile.
+P3 Performance: query gia' preparate; partial header/footer gia' condivisi;
+   tool WebP (tools/aow_convert_webp.php); rate-limit su register/forgot.
+
+--------------------------------------------------------------------
+ ULTIME MODIFICHE (questo lotto)
+--------------------------------------------------------------------
+- LIGHTBOX: RIPRISTINATO piroBox (come richiesto). Reinseriti gli include
+  jquery.min.js + piroBox.1_2.js in 78 pagine e ripristinato l'init in
+  js/site_init.js. Il MENU resta CSS-driven (ddsmoothmenu NON reintrodotto).
+- SIDEBAR: il box utente (sidebar_user_box.php) e' spostato IN CIMA alla
+  sidebar (include_sidebar.php).
+- SCHEDA ANNUNCIO (D): aggiunti gli "annunci correlati" della stessa
+  categoria (shared/view_ad.php, riusa shared/ad_card.php). La scheda ora ha
+  breadcrumb, galleria, prezzo/POR, tech details, documenti, contatti,
+  fornitori correlati, annunci correlati e CTA sticky mobile.
+- INSERIMENTO ANNUNCIO FREE: rimosso lo step GALLERY (non disponibile per il
+  free): niente "Continue -> gallery", niente link "Gallery" in preview,
+  niente testo che la promette. File: 02_free_ads/02_insert_ad.php,
+  02_insert_ad_image.php, 02_preview_ad.php.
+
+--------------------------------------------------------------------
+ NUOVA DIRETTIVA PERMANENTE (vedi DIRETTIVE.md)
+--------------------------------------------------------------------
+Inserimento annuncio "tier-aware": durante l'inserimento NON si propongono
+procedure/step non consentiti al tier dell'utente (free/gold/premium).
+Esempio: il free non ha gallery -> lo step gallery non compare.
+Regola da applicare sempre d'ora in avanti.
+====================================================================

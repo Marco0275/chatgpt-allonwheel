@@ -1,3 +1,8 @@
-1b7594ba95ef877c8edc26201ee9ff83  LEGGIMI_histats.txt
-301704bbadc341bf3a328c1dcfa64bce  config/security_headers.php
-8c197d3aefa3e9c9458b4ad4f9100974  includes/histats.php
+e55a67b58d743185a273f8310057b8d4  LEGGIMI_AI_autopublisher.txt
+a8492be4ea12742de1418434c031e067  blog.php
+7d7fce9446e0f4dcd8b6a836d9450bc8  blog_save.php
+5ba9aae6999dc16eb24c0cfadef4a472  cron/blog_ai_daily.php
+1b04e84a8cd400aa1b3d32ea3add1595  libs/AiBlogClient.php
+1b2ed25dbcf9912de1e96d6535565f02  libs/AiBlogPublisher.php
+eabba136c44b94cfc016d047b35332cc  libs/blog.class.php
+51a94f886ae4f7950b133ee807fd2c20  sql/Changelog/2026-08-05_ai_blog_multilang.sql

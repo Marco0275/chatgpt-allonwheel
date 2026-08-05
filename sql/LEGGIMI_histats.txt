@@ -1,0 +1,40 @@
+====================================================================
+ ALLONWHEEL - FIX conteggio Histats (causa VERA: CSP troppo stretta)
+====================================================================
+
+CAUSA REALE (dalla console del browser)
+  Il loader Histats (js15_as.js) viene da s10, ma il conteggio vero arriva da
+  s4.histats.com/stats/0.php (Histats ruota su s1..s10). La tua CSP permetteva
+  solo s10 e sstatic1 -> s4 veniva BLOCCATO ("violates ... script-src ...
+  blocked") e il conteggio non partiva. Questo bloccava anche la versione
+  consent-gated: NON era colpa del gating.
+
+FIX (2 file)
+  config/security_headers.php  -> CSP ora permette  https://*.histats.com
+     in  script-src, img-src, connect-src  (copre s4/s10/sstatic1 e futuri).
+  includes/histats.php         -> versione ALWAYS-ON (come da tua richiesta):
+     conta tutti, subito. ID 4703110, snippet identico al tuo.
+
+>>> IMPORTANTE (scelta tua, ora informata)
+  Con la CSP sistemata, il conteggio funziona in ENTRAMBE le versioni:
+   - ALWAYS-ON (questo includes/histats.php): conta tutti SENZA consenso ->
+     NON conforme GDPR (dir. 20). L'ho messo perche' me l'hai chiesto.
+   - CONSENT-GATED (la tua versione precedente di includes/histats.php):
+     conta solo con consenso 'analytics' -> conforme GDPR.
+  Poiche' il problema era la CSP e NON il gate, ora puoi contare RESTANDO
+  compliant: ti CONSIGLIO di tenere la versione gated e usare solo il fix CSP.
+  Per farlo: applica config/security_headers.php e RIPRISTINA il tuo vecchio
+  includes/histats.php (quello che definiva window.aowLoadHistats). Se invece
+  vuoi always-on, copia anche l'includes/histats.php di questo pacchetto.
+
+VERIFICA
+  1) Apri il sito -> Ispeziona -> Console: NON deve piu' comparire il messaggio
+     "violates ... script-src ... blocked" per s4/s10.histats.com.
+  2) Network: le richieste a s10 e s4 histats.com danno 200.
+  3) Pannello Histats: i hit salgono in pochi minuti.
+  Se ancora 0: ad-blocker nel tuo browser (prova incognito senza estensioni).
+
+NOTA
+  La CSP e' in enforce (per questo bloccava). Il wildcard *.histats.com e' il
+  minimo per far girare Histats senza aprire troppo.
+====================================================================

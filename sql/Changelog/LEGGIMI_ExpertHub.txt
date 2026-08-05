@@ -1,0 +1,115 @@
+====================================================================
+ ALLONWHEEL — Ask the Experts + Landing B2B + API ChatGPT + Riordino asset
+ Pacchetto da sovrapporre su V3_21.  Tutti i .php: "php -l" OK.
+ Migrazione + logica classe: TESTATE su MariaDB reale (17/17 asserzioni OK).
+====================================================================
+
+Cosa contiene (per cartella di destinazione — copiare sulla root, sovrascrivere)
+
+  /  (root)
+    blog.php                     -> hub "Ask the Experts" con filtro categorie
+    blog_post.php                -> articolo: Q, scaletta, FAQ (schema+accordion),
+                                    form lead B2B a fine articolo
+    blog_lead_save.php           -> handler del form lead (NUOVO)
+    landing.php                  -> landing di servizio B2B ricostruita (design
+                                    system esistente, EN, CTA B2B). Sostituisce
+                                    quella con <style> inline in italiano.
+  /libs
+    blog.class.php               -> BlogManager esteso (categorie, slug, scheduling,
+                                    createFromApi/updateFromApi, lead) — additivo
+  /api
+    blog.php                     -> REST API (NUOVO) per ChatGPT/Actions
+    .htaccess                    -> forwarding header Authorization (Bearer)
+    blog_api.env.example         -> chiavi da aggiungere al .env
+    README_ChatGPT_API.md        -> guida + schema OpenAPI per il Custom GPT
+  /cron
+    blog_publish_scheduled.php   -> pubblica gli articoli "scheduled" scaduti
+  /_admin
+    admin_header.php             -> +1 voce di menu "Blog leads" (additivo)
+    blog_leads.php               -> pannello lead del blog (NUOVO)
+  /sql/Changelog
+    2026-08-02_blog_expert_hub.sql -> migrazione (idempotente, MySQL 5.7-safe)
+  /tools
+    analyze_unused.py            -> analizzatore uso asset (riproducibile)
+    unused_images.txt            -> 161 immagini non usate (manifest verificato)
+    orphan_php.txt               -> 1 file orfano (landing1.php)
+    asset_usage_report.txt       -> report leggibile
+    reorg_images.bat / .sh       -> sposta le immagini non usate in images/not_used
+    cleanup_unused_code.bat / .sh-> elimina i .php/.html orfani (dry-run di default)
+
+--------------------------------------------------------------------
+ AZIONI MANUALI (nell'ordine)
+--------------------------------------------------------------------
+1) BACKUP del sito e del database.
+
+2) DATABASE — eseguire UNA volta (idempotente, ri-lanciabile senza danni):
+     sql/Changelog/2026-08-02_blog_expert_hub.sql
+
+3) COPIARE i file sulla root (sovrascrivi). Nessun file preesistente viene
+   rimosso da questo pacchetto.
+
+4) .env (fuori webroot) — aggiungere (vedi api/blog_api.env.example):
+     BLOG_API_KEY=<genera: php -r "echo bin2hex(random_bytes(32));">
+     BLOG_API_AUTHOR_ID=<opzionale: id_user autore per i post via API>
+   CRON_TOKEN e' gia' presente e viene riusato dal cron del blog.
+
+5) CRON (pubblicazione programmata) — aggiungere su cron-job.org (o crontab)
+   una chiamata ogni ~10 min:
+     https://www.allonwheel.com/cron/blog_publish_scheduled.php?token=<CRON_TOKEN>
+
+6) CHATGPT — creare un Custom GPT, incollare lo schema OpenAPI di
+   api/README_ChatGPT_API.md nelle Actions, autenticazione API Key -> Bearer
+   con la BLOG_API_KEY. Da li' si creano bozze / si programmano / si pubblicano
+   articoli via prompt.
+
+7) IMMAGINI (punto 4 della richiesta) — dalla RADICE del sito:
+     Windows:  tools\reorg_images.bat        (anteprima: tools\reorg_images.bat /DRYRUN)
+     Linux:    bash tools/reorg_images.sh    (anteprima: --dry-run)
+   Sposta 161 immagini non usate in images/not_used/ (REVERSIBILE; non tocca
+   upload_image/ ne' images/brand/). Le immagini realmente usate restano.
+
+8) CLEANUP CODICE (punto 4) — dalla RADICE:
+     Windows:  tools\cleanup_unused_code.bat            (elenca soltanto)
+               tools\cleanup_unused_code.bat /DELETE    (cancella dopo conferma)
+     Linux:    bash tools/cleanup_unused_code.sh [--delete]
+   In lista c'e' solo landing1.php (duplicato esatto della vecchia landing).
+   Gli stub di redirect 301 (ads.php, catalog.php) NON sono in lista: servono a
+   non rompere i vecchi bookmark.
+
+--------------------------------------------------------------------
+ BUG REALI EMERSI DALL'ANALISI (fix a tua decisione — NON toccati qui)
+--------------------------------------------------------------------
+- LOGO HEADER: NESSUN problema. images/brand/logo.png ESISTE (verificato).
+  Una mia segnalazione precedente lo dava per mancante: era errata, la ritiro.
+- CASE RIFERIMENTO IMMAGINE (1 solo, reale): index.php punta a
+  images/00_first/road_vehicles.JPG ma il file e' road_vehicles.jpg (minuscolo).
+  Su hosting Linux (case-sensitive) e' un'immagine rotta (salvata solo dal
+  fallback JS). FIX manuale (1 riga in index.php): cambia .JPG -> .jpg nel
+  riferimento a road_vehicles. Non ho sovrascritto index.php qui perche' e'
+  candidato a riscrittura completa (P0): meglio la singola modifica a mano o
+  dentro quella riscrittura, che spedirti tutto il file per un carattere.
+
+--------------------------------------------------------------------
+ CTA -> RFQ: prefill dell'intento (NUOVO in questo pacchetto)
+--------------------------------------------------------------------
+File: 04_request_offer/04_request_offer.php (additivo, nessun CSS nuovo).
+Le CTA di landing.php e blog_post.php arrivano alla RFQ con ?intent=
+(feasibility_study | custom_quote | question). Ora la RFQ prefilla il campo
+"Object" con l'etichetta corrispondente (es. 'Feasibility study request'),
+che 04_send_offer.php usa gia' come oggetto della mail al fornitore. Nessuna
+modifica al motore 04_send_offer.php. L'utente puo' comunque editare l'oggetto.
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+ VERIFICHE CONSIGLIATE DOPO IL DEPLOY
+--------------------------------------------------------------------
+- blog.php: le chip categoria filtrano; /blog.php?cat=costs mostra solo "Costs".
+- Crea un articolo via API (status=published) e verifica che compaia; poi uno
+  status=scheduled con published_at futuro (NON deve comparire) e uno passato
+  (dopo il cron compare).
+- blog_post.php: FAQ in accordion + <script application/ld+json> FAQPage nel
+  sorgente; il form a fine articolo invia il lead (compare in _admin/blog_leads.php
+  e arriva la mail).
+- landing.php: hero + card veicolo con zoom in hover + CTA "Request a Feasibility
+  Study" / "Get a Custom Quote".
+====================================================================

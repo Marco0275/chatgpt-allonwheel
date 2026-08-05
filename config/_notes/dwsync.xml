@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name="config.php" server="ftp.allonwheel.com" local="134304075844466071" remote="134304075600000000" Dst="2" />
+<file name="bootstrap.php" server="ftp.allonwheel.com" local="134292056100000000" remote="134304387000000000" Dst="2" />
+<file name="security_headers.php" server="ftp.allonwheel.com" local="134303273220000000" remote="134304387000000000" Dst="2" />
+<file name="i18n.php" server="ftp.allonwheel.com" local="134279725800000000" remote="134304387000000000" Dst="2" />
+<file name="app_settings.php" server="ftp.allonwheel.com" local="134298898240000000" remote="134304387000000000" Dst="2" />
+<file name="database.php" server="ftp.allonwheel.com" local="134294499760000000" remote="134304387000000000" Dst="2" />
+<file name="session_helper.php" server="ftp.allonwheel.com" local="134298898240000000" remote="134304387000000000" Dst="2" />
+<file name="csrf.php" server="ftp.allonwheel.com" local="134296506000000000" remote="134304387000000000" Dst="2" />
 </dwsync>
