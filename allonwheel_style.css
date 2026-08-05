@@ -1,0 +1,1716 @@
+body {
+	margin: 0;
+	padding-top: 8px;
+	padding-right: 8px;
+	padding-left: 8px;
+	padding-bottom: 8px;
+	color: #636363;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 13px;
+	line-height: 1.5em;
+	background-color: #fff;
+	background-position: top;
+	background-repeat: repeat-x;
+}
+
+a, a:link, a:visited { 
+	color: #ff0000; 
+	font-weight: normal; 
+}
+
+a:hover { 
+	text-decoration: underline; 
+}
+
+/* Bottone unico (dir. Batch 2 punto 7): stile brand, larghezza adattiva, freccia.
+   Sostituisce il vecchio pill a immagine fissa (more.png, 110px) che troncava
+   i label lunghi. Vale per <a class="more"> e <button class="more"> ovunque. */
+a.more,
+button.more {
+	display: inline-block;
+	margin-top: 0px;
+	height: auto;
+	line-height: 1.2;
+	padding: 9px 22px;
+	text-align: left;
+	text-decoration: none;
+	background: #1B2A41;
+	color: #fff;
+	border: 0;
+	cursor: pointer;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 13px;
+	position: relative;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+a.more:hover,
+button.more:hover {
+	background: #3a4c5e;
+	text-decoration: none;
+}
+/* freccia: solo su <a>/<button> (gli <input> non hanno ::after, per questo i
+   submit sono stati convertiti in <button class="more">). content: "\203A"; */
+a.more::after,
+button.more::after {
+	content: none;
+}
+
+a.back,
+button.back
+{
+	display: inline-block;
+	margin-top: 0px;
+	height: auto;
+	line-height: 1.2;
+	padding: 9px 22px;
+	text-align: left;
+	text-decoration: none;
+	background: #1B2A41;
+	color: #fff;
+	border: 0;
+	cursor: pointer;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 13px;
+	position: relative;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+p { 
+	margin: 0 0 10px 0; 
+	padding: 0; 
+}
+
+img { 
+	border: none;
+}
+
+blockquote { 
+	border: 1px solid #ccc; 
+	border-left: 5px solid #000; 
+	padding: 19px;
+	margin: 20px 0 0 0;
+}
+
+cite { 
+	font-weight: bold; 
+	color:#f00; 
+}
+
+cite a, cite a:link, cite a:visited {
+	color:#f00; 
+	text-decoration: none;
+}
+
+cite span {
+	color: #636363;
+}
+
+em {
+	color: #000;
+	text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 { color: #000; font-weight: normal; font-family: Georgia, "Times New Roman", Times, serif }
+h1 { font-size: 34px; margin: 0 0 30px; padding: 5px 0 }
+h2 { font-size: 24px; margin: 0 0 20px; padding: 5px 0; }
+h3 { font-size: 18px; margin: 0 0 10px; padding: 0; }
+h4 { font-size: 14px; margin: 0 0 15px; padding: 0; }
+h5 { font-size: 13px; margin: 0 0 10px; padding: 0; }
+h6 { font-size: 12px; margin: 0 0 5px; padding: 0; }
+
+.cleaner {
+	clear: both;
+}
+.h10 { height: 10px }
+.h20 { height: 20px }
+
+
+.float_l { float: left }
+.float_r { float: right }
+
+
+.templatemo_list { 
+	margin: 10px 0 10px 0; 
+	padding: 0; 
+	list-style: none; 
+}
+
+.templatemo_list li {
+	color: #636363;
+	margin: 0 0 5px 0;
+	padding-top: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	background: url("images/punto_sidebar.png") no-repeat scroll 0 7px;
+	padding-left: 20px;
+}
+
+.templatemo_list li a { 
+	color: #636363; 
+	font-weight: normal; 
+}
+
+.templatemo_list li a:hover { color: #000 }
+
+
+#site_title { 
+	float: left; 
+}
+
+#site_title .site_brand { 
+	margin: 0; 
+	padding: 0; 
+}
+
+#site_title .site_brand a { 
+	display: block; 
+	width: 230px; 
+	height: 27px; 
+	color: #000; 
+	text-indent: -10000px; 
+	/* background: url(images/factory_name.png) no-repeat top left; */
+}
+
+#templatemo_menu { float: right; }
+
+
+#content_top {
+	padding: 40px 0 5px;
+	margin-bottom: 20px;
+	border-bottom: 4px solid #000;
+}
+
+#page_title { 
+	float: left; 
+	font-size: 40px; 
+	padding-bottom: 14px; 
+	font-family: Georgia, "Times New Roman", Times, serif; 
+	color: #000; 
+} 
+
+#search_box { 
+	float: right; 
+	width: 240px; 
+	height: 30px; 
+	background: url(images/search.png) no-repeat; 
+}
+
+#search_box form { 
+	clear: both; 
+	float: left; 
+	width: 180px; 
+	height: 30px; 
+	padding: 0; 
+	margin: 0; 
+} 
+
+#searchfield { 
+	float: left; 
+	display: block; 
+	height: 20px;
+	width: 240px; 
+	padding: 4px; 
+	font-size: 12px; 
+	color: #fff; 
+	background: none; 
+	border: none; 
+} 
+
+#searchbutton { 
+	float: right; 
+	display: block; 
+	height: 28px; 
+	width: 40px; 
+	padding: 0; 
+	margin: 0; 
+	cursor: pointer; 
+	background: none; 
+	border: none; 
+}
+
+
+.col_4 { 
+	float: left; 
+	width: 225px; 
+	margin-right: 20px; 
+}
+
+.rmc { margin-right: 0 }
+
+.gallery_box {
+	clear: both;
+	margin-bottom: 15px;
+}
+
+.gallery_box h2 { 
+	padding-bottom: 8px; 
+	margin-bottom: 10px; 
+	border-bottom: 2px solid #000; 
+}
+
+.gallery { 
+	margin: 0; 
+	padding: 0; 
+	list-style: none; 
+}
+
+.gallery li { 
+	margin: 0; 
+	padding: 0; 
+	display: block; 
+	float: left; 
+	padding: 5px; 
+	margin: 0 8px 8px 0; 
+	width: 220px; 
+	height: 150px; 
+	border: 1px solid #ccc; 
+}
+
+.gallery li a { 
+	display: block; 
+	float: left; 
+	width: 220px; 
+	height: 150px; 
+	margin: 0 2px 2px 0; 
+	overflow: hidden; 
+}
+.gallery li a img { 
+	display: block; 
+	width: 100%; 
+	height: 100%; 
+	object-fit: contain; 
+}
+
+.post_box {
+	clear: both;
+	margin-bottom: 5px;
+	padding-bottom: 10px;
+	background: url(images/templatemo_divider.png) repeat-x bottom;
+}
+
+.post_box img { 
+	float: left; 
+	margin-right: 40px; 
+}
+
+.post_box h2 { 
+	font-size: 30px; 
+	padding-bottom: 10px; 
+	border-bottom: 2px solid #000; 
+}
+
+.post_meta {
+	clear: both;
+	margin-top: 30px;
+	height: 30px;
+	padding: 0 10px;
+	background: url(images/templatemo_footer_bottom.jpg) repeat-x center;
+	line-height: 30px;
+}
+
+.post_meta a.more,
+.post_meta button.more {
+	margin-right: 0;
+	margin-left: 0;
+	margin-bottom: 0
+}
+
+.post_meta a.back,
+.post_meta button.back {
+	margin-right: 0;
+	margin-left: 0;
+	margin-bottom: 0
+}
+
+#comment_section {
+	clear: both;
+	margin-bottom: 60px;
+	width: 618px;
+}
+
+.first_level {
+	margin: 0; padding: 0;
+}
+
+.comments {
+	list-style: none; 
+}
+
+.comments li { 
+	margin-bottom: 10px; 
+	list-style:none; 
+}
+
+.comments li .commentbox1 { 
+	background: #ccc; 
+	border: 1px solid #999; 
+}
+
+.comments li .commentbox2 { 
+	background: #999; 
+	border: 1px solid #666; 
+}
+
+.comments li .comment_box { 
+	clear: both; 
+	width:100%; 
+	padding: 15px; 
+}
+
+.comment_box .gravatar { 
+	float: left; 
+	width: 50px; 
+	margin-right: 15px; 
+	background: #000; 
+}
+
+.comment_box .gravatar img { 
+	margin: 0; 
+	width: 50px; 
+	height: 50px; 
+}
+
+.comment_box .comment_text { margin: 0 0 0 65px; }
+
+.comment_box .comment_text p { 
+	margin: 0; 
+	color: #000; 
+}
+
+.comment_text .comment_author { 
+	font-size: 13px; 
+	font-weight: bold; 
+	color: #000; 
+	margin-bottom: 10px; 
+}
+
+.comment_text .date { 
+	font-size: 11px; 
+	font-weight: normal; 
+	color: #000; 
+	padding-left: 10px; 
+}
+
+.comment_text .time { 
+	font-size: 11px; 
+	font-weight: normal; 
+	color: #000; 
+	padding-left: 10px; 
+}
+
+.comment_text .reply a { 
+	display: block; 
+	clear: both; 
+	float: right; 
+	color: #000; 
+	font-weight: bold; 
+} 
+
+#comment_form {
+	clear: both;
+}
+
+#comment_form h3 {
+	font-size: 20px;
+	border-bottom: 2px solid #000;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+}
+
+#comment_form form {
+	padding: 20px;
+	background: #ccc; border: 1px solid #999;
+}
+
+#comment_form textarea {
+	color: #fff;
+	background:#666 none repeat fixed 0 0;
+	border: 1px solid #333;
+	display:block;
+	height:150px;
+	padding:5px;
+	width: 360px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+#comment_form .form_row {
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+#comment_form form input {
+	color: #fff;
+	padding: 5px;
+	width: 200px;
+	background: #666 none repeat fixed 0 0;
+	border: 1px solid #333;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+
+.templatemo_paging { 
+	margin: 0 0 20px; 
+	padding: 0; 
+}
+
+.templatemo_paging ul { 
+	margin: 0; 
+	padding: 0; 
+	list-style: none; 
+}
+
+.templatemo_paging ul li { 
+	margin: 0; 
+	padding: 0; 
+	display: inline; 
+}
+
+.templatemo_paging ul li a { 
+	float: left; 
+	display: block; 
+	color: #666; 
+	text-decoration: none; 
+	margin-right: 5px; 
+	padding: 5px 10px; 
+	background-color: #ccc; 
+	border: 1px solid #999; 
+}
+
+.templatemo_paging ul li a:hover { 
+	background: #f00; 
+	border: 1px solid #333; 
+	color: #fff; 
+}
+
+#contact_form {
+	clear: both;
+	padding: 0;
+	margin-top: 20px;
+}
+
+#contact_form form { 
+	margin: 0px; 
+	padding: 0px; 
+}
+
+#contact_form form .input_field { 
+	width: 280px; 
+	padding: 5px; 
+	color: #222; 
+	border: 1px solid #ccc; 
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+#contact_form form label { 
+	display: inline-block; /* Permette alla label di non occupare tutta la riga (se lo desideri) */
+	width: auto;           /* Fa in modo che la larghezza si adatti al testo */
+	margin-right: 10px; 
+	font-size: 13px; 
+}
+
+#contact_form form textarea { 
+	width: 638px; 
+	height: 200px; 
+	padding: 5px; 
+	border: 1px solid #ccc; 
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+
+.sb_box { 
+	margin-bottom: 30px; 
+}
+
+.sb_box h3 { 
+	padding-bottom: 4px; 
+	border-bottom: 2px solid #000; 
+}
+
+.sb_list { 
+	padding: 0; 
+	margin: 0; 
+}
+
+.sb_list li { 
+	padding: 0 0 3px 0; 
+	margin: 0 0 1px 5px; /* Nota: aggiunto "px" mancante all'originale */
+	list-style: none; 
+	border-bottom: 1px solid #ccc; 
+}
+
+.sb_list li a {
+	color: #636363;
+	text-decoration: none;
+	padding-left: 0px;
+	background: url(images/templatemo_list.png) no-repeat scroll 0 7px;
+}
+
+#templatemo_bottom {
+	clear: both;
+	margin: 10px 0 10px;
+	padding: 10px 0;
+	font-size: 11px;
+	background: #ededed url(images/templatemo_bottom.jpg) top repeat-x;
+}
+
+.col_f { 
+	padding-left: 15px; 
+	width: 210px; 
+}
+
+.col_l { 
+	padding-right: 15px; 
+	width: 210px; 
+}
+
+.footer_link { 
+	margin: 0; 
+	padding: 0; 
+}
+
+.footer_link li { 
+	margin-bottom: 5px; 
+	padding-bottom: 3px; 
+	border-bottom: 1px solid #666; 
+	list-style: none; 
+}
+
+.footer_link li a { 
+	color: #000; 
+	text-decoration: none; 
+}
+
+.footer_link li .social { 
+	padding-left: 30px; 
+}
+
+.footer_link li .facebook { 
+	background: url(images/facebook.png) left center no-repeat; 
+}
+
+.footer_link li .linkedin {
+	background: url(images/linkedin.png) left center no-repeat; 
+}
+
+.footer_link li .instagram { 
+	background: url(images/instagram.png) left center no-repeat; 
+}
+
+.footer_link li .youtube { 
+	background: url(images/youtube.png) left center no-repeat; 
+}
+
+.footer_link li .vimeo { 
+	background: url(images/vimeo.png) left center no-repeat; 
+}
+
+#templatemo_footer {
+	clear: both;
+	text-align: center;
+	line-height: 40px;
+	width: 960px;
+	height: 50px;
+	background: url(images/templatemo_footer_bottom.jpg) repeat-x
+}
+
+/* --- Classi Modulo / Form e Griglie (Ottimizzate e Unificate) --- */
+
+.step-bar { display:flex; gap:0; margin-bottom:20px; }
+.step-bar .step { flex:1; text-align:center; padding:8px 4px; font-size:12px; background:#ddd; color:#666; border-right:2px solid #fff; }
+.step-bar .step.active { background:#1D275A; color:#fff; font-weight:bold; }
+.step-bar .step.done { background:#4a7; color:#fff; }
+
+.error-msg { color:red; font-size:13px; margin-bottom:10px; }
+
+
+.cat-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:6px 16px; margin-bottom:16px; }
+.cat-grid label { font-size:13px; cursor:pointer; }
+.cat-grid label input { margin-right:5px; }
+
+
+.required-note { color:red; font-size:12px; }
+
+/* ============================================================ */
+/* Admin panel "Records" - classi condivise (nessuno stile inline) */
+/* Aggiunte al foglio di stile esistente; nessun file CSS nuovo.   */
+/* ============================================================ */
+#templatemo_content.admin_full { width:100% !important; float:none !important; }
+.admin_table { width:100%; border-collapse:collapse; }
+/* Allineamento tabelle admin (23 lug 2026): intestazioni CENTRATE, dati a
+   SINISTRA. Le regole CSS battono l'attributo HTML align="center" rimasto su
+   alcune celle (gli attributi di presentazione hanno specificita' zero),
+   quindi i record tornano a sinistra ovunque senza dover toccare 25 punti
+   sparsi nelle pagine admin. */
+.admin_table th { background:#1D275A; color:#fff; text-align:center; }
+.admin_table td { text-align:left; }
+.admin_thead_row td, .admin_thead_row th { text-align:center; }
+.admin_row_pending td { background:#FFF8DC; }
+.admin_footer_note { text-align:center; padding:10px 0; }
+.admin_form td { vertical-align:top; }
+.aw_in_s { width:120px; }
+.aw_in_m { width:200px; }
+.aw_in_l { width:340px; max-width:100%; }
+.admin_textarea { width:340px; max-width:100%; }
+.admin_tag { display:inline-block; width:170px; }
+.admin_price { width:140px; }
+.admin_fieldset { border:1px solid #c9d0e8; padding:10px 12px; margin:0; }
+.admin_fieldset legend { font-weight:bold; color:#1D275A; padding:0 6px; }
+.admin_inline_form { display:inline; margin:0; }
+.admin_table input.more, .admin_table .more { margin:2px; }
+.admin_thead_row td, .admin_thead_row th { background:#1D275A; color:#fff; }
+.admin_row_inactive td { background:#FDE8E8; }
+.admin_row_pending td { background:#FFF8DC; }
+.admin_row_rejected td { background:#FDE8E8; }
+.admin_ok { color:#1D275A; font-weight:bold; }
+.admin_bad { color:#c00; font-style:italic; }
+.admin_muted { color:#999; }
+.admin_thumb { max-width:60px; max-height:45px; }
+.admin_nav_active { font-weight:bold; }
+
+/* ============================================================
+   Badge annunci (browse.php) - ECCEZIONE a dir. 8 autorizzata da
+   Marco: badge colorati ripristinati via classi (niente piu'
+   stili inline). Colori = palette esistente (#1D275A brand).
+   ============================================================ */
+.badges { margin:4px 0 8px; }
+.badge { display:inline-block; padding:2px 7px; margin-right:4px; font-size:11px; color:#fff; border-radius:3px; }
+.badge_premium { background:#8B6914; }
+.badge_featured { background:#B8860B; }
+.badge_type { background:#555; }
+.badge_cond { background:#888; }
+
+/* Riga d'intestazione tabella (navy brand) — eccezione dir. 8: sostituisce
+   gli <tr style="background:#1D275A;color:#fff"> inline in 04/06. */
+.thead_row, .thead_row td, .thead_row th {
+	background: #1D275A;
+	color: #fff;
+	text-align: left;
+}
+
+/* Utility presentazione (eccezione dir. 8) - sostituiscono stili inline
+   ricorrenti in 04/06 (tabelle/form). Honeypot display:none lasciati inline. */
+.tbl_collapse { border-collapse:collapse; }
+.row_sep { border-bottom:1px solid #eee; }
+.w60 { width:60px; }
+.w80 { width:80px; }
+.w95 { width:95%; }
+.w100 { width:100%; }
+.img_preview { max-width:200px; max-height:150px; margin:8px 0; display:block; }
+
+/* ============================================================
+   CONSOLIDAMENTO CSS v0.0.12 - ECCEZIONE UNICA a dir. 8
+   autorizzata da Marco: tutto il CSS prima sparso nei file
+   (blocchi <style> e attributi style="") confluisce qui.
+   Niente nuovo "design": stesse regole, solo centralizzate.
+   ============================================================ */
+
+/* --- Titoli/accent navy brand (ex style="color:#1D275A") --- */
+
+
+/* --- Testo esito form (ex style="color:red" / "color:green") --- */
+.aow-error-text { color:red; }
+.aow-ok-text    { color:green; }
+
+/* --- Messaggi flash (ex <p style="..."> in 06_14_company_gallery) --- */
+.flash      { padding:8px 12px; margin-bottom:12px; }
+.flash_ok   { background:#e8f4e8; border:1px solid #4a7; color:#333; }
+.flash_err  { background:#fde;    border:1px solid #c00; color:#c00; }
+.muted_small{ font-size:13px; color:#666; }
+
+/* --- Form inline (ex style="display:inline; margin:0" / "display:inline") --- */
+.inline_form { display:inline; margin:0; }
+
+/* --- Wrapper thumbnail (ex style="display:inline-block; margin:5px; ...") --- */
+.thumb_wrap { display:inline-block; margin:5px; vertical-align:top; }
+.gal_thumb  { display:inline-block; margin:8px; vertical-align:top; text-align:center; }
+.btn_del    { background:#c00; color:#fff; border:none; padding:2px 8px; font-size:11px; cursor:pointer; }
+
+/* --- Utility varie (ex style="clear:left") --- */
+.clear_left { clear:left; }
+
+/* --- Legacy templatemo (ex <style> in 02/03_preview_ad.php) --- */
+
+
+/* --- Cookie banner GDPR (ex <style> inline in cookie_banner.php) --- */
+#aow-cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;
+  background:#1f2933;color:#f5f7fa;padding:18px 20px;
+  box-shadow:0 -2px 12px rgba(0,0,0,.35);font-size:14px;line-height:1.5;}
+#aow-cookie-banner .aow-cc-body{max-width:1000px;margin:0 auto;}
+#aow-cookie-banner p{margin:0 0 10px;color:#f5f7fa;}
+#aow-cookie-banner a{color:#7fb3ff;text-decoration:underline;}
+#aow-cookie-banner .aow-cc-cats{margin:0 0 12px;}
+#aow-cookie-banner .aow-cc-cats label{display:inline-block;margin-right:18px;color:#f5f7fa;}
+#aow-cookie-banner .aow-cc-actions{display:flex;gap:10px;flex-wrap:wrap;}
+#aow-cookie-banner .aow-cc-actions button{flex:0 0 auto;cursor:pointer;
+  border:1px solid #7fb3ff;background:#2b3947;color:#fff;
+  padding:9px 18px;border-radius:4px;font-size:14px;}
+#aow-cookie-banner .aow-cc-actions button:hover{background:#3a4c5e;}
+#aow-cc-manage{position:fixed;left:14px;bottom:14px;z-index:9998;cursor:pointer;
+  border:1px solid #1f2933;background:#fff;color:#1f2933;
+  padding:7px 14px;border-radius:4px;font-size:13px;box-shadow:0 1px 6px rgba(0,0,0,.2);}
+
+/* --- residui browse.php --- */
+.clear_link { margin-left:6px; font-size:11px; color:#666; }
+.m0 { margin:0; }
+/* hero_image della macro su browse.php (responsive entro il box) */
+.macro_hero { max-width:100%; height:auto; display:block; margin:0 0 12px; }
+
+
+/* ====================================================================== */
+/* ===============  RESTYLE 2026  (layer additivo, sito-wide)  =========== */
+/* Ridisegna le classi/ID esistenti senza modificare le pagine.            */
+/* Ispirazione: premium / industriale / motorsport. Font di sistema.       */
+/* ====================================================================== */
+
+:root{
+  --ink:#0e1a2b;        /* header/footer scuri */
+  --navy:#15263d;       /* superfici scure secondarie */
+  --brand:#1b2a41;      /* brand navy esistente */
+  --accent:#e4002b;     /* rosso motorsport (CTA/attivo) */
+  --accent-d:#b80022;
+  --bg:#f4f6f9;         /* sfondo pagina */
+  --card:#ffffff;
+  --line:#e3e8ef;
+  --text:#1d2733;
+  --muted:#5d6b7a;
+  --white:#ffffff;
+  --radius:10px;
+  --radius-sm:7px;
+  --shadow:0 1px 2px rgba(16,26,43,.06), 0 8px 24px rgba(16,26,43,.08);
+  --shadow-h:0 6px 16px rgba(16,26,43,.12), 0 18px 48px rgba(16,26,43,.16);
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+
+/* ---------- Base ---------- */
+body{
+  background:var(--bg) !important;
+  background-image:none !important;
+  color:var(--text) !important;
+  font-family:var(--sans) !important;
+  font-size:15px !important;
+  line-height:1.6 !important;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:var(--brand); text-decoration:none; transition:color .15s ease; }
+a:hover{
+	color: var(--accent);
+	text-align: left;
+}
+h1,h2,h3,h4,h5{ color:var(--ink); line-height:1.2; }
+img{ max-width:100%; height:auto; }
+
+/* --- piroBox lightbox: l'immagine ingrandita e' dimensionata dal plugin
+   (width/height inline calcolati su misura). La regola globale img{max-width:100%}
+   qui sopra la vincolava al contenitore .c_c, impedendo l'apertura a dimensioni
+   originali (evidente su mobile). La si esenta. Vale per gallery, scheda annuncio
+   e ogni pagina con piroBox (class pirobox / pirobox_gall). --- */
+.pirobox_content img, .pirobox_content .c_c img, .pirobox_content .c_c div img{
+  max-width:none !important; height:auto !important;
+}
+
+/* ---------- Wrapper centrato responsivo ---------- */
+#templatemo_wrapper{
+  width:auto !important;
+  max-width:1180px !important;
+  margin:0 auto !important;
+  padding:0 20px 48px !important;
+  background:transparent !important;
+}
+
+/* ---------- Header scuro (barra) ---------- */
+#templatemo_header{
+  width:auto !important;
+  background:var(--ink) !important;
+  background-image:none !important;
+  border-radius:0 0 var(--radius) var(--radius);
+  padding:0 22px !important;
+  margin:0 0 22px 0 !important;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:8px;
+  box-shadow:var(--shadow);
+}
+#site_title{ float:none !important; width:auto; padding:14px 0; }
+#site_title .site_brand{ margin:0; padding:0; line-height:1; }
+#site_title .site_brand a{
+  display:flex; align-items:baseline; gap:8px;
+  width:auto !important; height:auto !important; min-height:0 !important;
+  background:none !important; text-indent:0 !important;
+  font-size:22px; font-weight:800; letter-spacing:.10em; text-transform:uppercase;
+  color:var(--white) !important;
+}
+.brand_word{ color:var(--white); }
+.brand_word b{ color:var(--accent); font-weight:800; }
+.brand_tag{
+  display:block; font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:#9fb0c4; font-weight:600; margin-top:3px;
+}
+
+/* ---------- Nav (ddsmoothmenu) — alta specificita' per battere ddsmoothmenu.css ---------- */
+#templatemo_header #templatemo_menu{ float:none !important; background:none !important; width:auto !important; }
+#templatemo_header .ddsmoothmenu{ background:none !important; font-family:var(--sans) !important; }
+#templatemo_header .ddsmoothmenu ul{ margin:0; padding:0; list-style:none; background:none !important; }
+#templatemo_header .ddsmoothmenu ul li{ float:left; position:relative; background:none !important; }
+#templatemo_header .ddsmoothmenu ul li a{
+  display:block; background:none !important; border:0 !important;
+  color:#dfe6ee !important; font-size:13px; font-weight:600; letter-spacing:.05em;
+  text-transform:uppercase; padding:0 15px !important; line-height:60px !important; width:auto !important;
+  height:auto !important;
+}
+#templatemo_header .ddsmoothmenu ul li a:hover,
+#templatemo_header .ddsmoothmenu ul li a.selected{ color:var(--white) !important; box-shadow:inset 0 -3px 0 var(--accent); }
+/* submenu */
+#templatemo_header .ddsmoothmenu ul li ul{
+  position:absolute; left:0; top:60px; width:220px; background:var(--navy) !important;
+  border-radius:0 0 var(--radius-sm) var(--radius-sm); box-shadow:var(--shadow-h); padding:6px 0;
+}
+#templatemo_header .ddsmoothmenu ul li ul li{ float:none; width:100%; }
+#templatemo_header .ddsmoothmenu ul li ul li a{
+  line-height:1.3 !important; padding:11px 16px !important; text-transform:none; letter-spacing:0;
+  font-weight:500; color:#cdd8e4 !important; box-shadow:none !important; border-bottom:1px solid rgba(255,255,255,.05) !important;
+}
+#templatemo_header .ddsmoothmenu ul li ul li a:hover{ background:rgba(255,255,255,.06); color:var(--white) !important; box-shadow:none !important; }
+#templatemo_header .ddsmoothmenu .downarrowclass,
+#templatemo_header .ddsmoothmenu .rightarrowclass{ display:none !important; }
+
+/* ---------- Content top / page title ---------- */
+#content_top{
+	padding-right: 0;
+	padding-left: 0;
+	padding-bottom: 14px;
+	margin-bottom: 18px !important;
+	border-bottom: 1px solid var(--line);
+}
+#page_title{
+  float:left !important; font-family:var(--sans) !important; font-weight:800 !important;
+  font-size:30px !important; color:var(--ink) !important; text-transform:none; padding:0 !important;
+  line-height:1.15 !important;
+}
+/* ---------- Box di ricerca (header di pagina) ----------
+   Il template originale imponeva altezze fisse ereditate:
+     #search_box{height:30px} - #search_box form{width:180px;height:30px}
+     #searchfield{height:20px;float:left} - #searchbutton{height:28px;float:right}
+   Il restyle precedente sovrascriveva width/padding ma NON le height: con
+   box-sizing:border-box il campo restava alto 20px, il padding veniva
+   schiacciato e il pulsante (30px) risultava PIU' ALTO del campo, sporgendo.
+   Qui la geometria e' resa deterministica: contenitore di larghezza nota,
+   campo al 100% con altezza esplicita, pulsante centrato dentro il campo. */
+#search_box{
+  float:right; position:relative;
+  width:250px !important; height:auto !important;
+  background:none !important;
+}
+#search_box form{
+  clear:none !important; float:none !important;
+  width:100% !important; height:auto !important;
+  padding:0 !important; margin:0 !important;
+}
+#search_box input#searchfield{
+  float:none !important; display:block !important;
+  width:100% !important; height:38px !important; line-height:normal !important;
+  padding:0 44px 0 16px !important; margin:0 !important;
+  background:var(--card) !important; color:var(--text) !important;
+  border:1px solid var(--line) !important; border-radius:24px !important;
+  font-size:14px !important; box-shadow:var(--shadow);
+}
+#search_box input#searchfield::placeholder{ color:var(--muted); opacity:1; }
+#search_box input#searchbutton{
+  position:absolute !important; float:none !important;
+  right:4px !important; top:50% !important; transform:translateY(-50%) !important;
+  width:30px !important; height:30px !important; padding:0 !important; margin:0 !important;
+  border-radius:50% !important; cursor:pointer; border:0 !important; font-size:0 !important;
+  background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.5' y2='16.5'/%3E%3C/svg%3E") center/15px no-repeat !important;
+}
+#search_box input#searchbutton:hover{ background-color:var(--accent-d) !important; }
+#search_box .clear_link{ display:inline-block; margin-top:6px; font-size:12px; }
+
+/* ---------- Layout content + sidebar fluido ---------- */
+#templatemo_content{ float:left !important; width:calc(100% - 332px) !important; }
+#templatemo_sidebar{ float:right !important; width:300px !important; }
+#no_sidebar{ width:100% !important; }
+
+/* ---------- Card (post_box) ---------- */
+.post_box{
+	background: var(--card) !important;
+	border: 1px solid var(--line) !important;
+	border-radius: var(--radius) !important;
+	padding: 20px 22px !important;
+	margin: 0 0 18px 0 !important;
+	box-shadow: var(--shadow);
+	overflow: hidden;
+	text-align: left;
+}
+.post_box h2,.post_box h3{ margin:0 0 10px 0; }
+.post_box img{ border-radius:var(--radius-sm); max-width:100%; height:auto; }
+
+/* ---------- Bottoni ---------- */
+a.more,button.more,input.more,.submit_btn{
+  display:inline-block; background:var(--brand) !important; color:var(--white) !important;
+  border:0 !important; border-radius:24px !important; padding:10px 22px !important; font-size:13px !important;
+  font-weight:600; letter-spacing:.03em; cursor:pointer; line-height:1.2 !important; height:auto !important;
+  text-transform:uppercase; transition:background .15s ease,transform .05s ease; box-shadow:var(--shadow);
+}
+a.more:hover,button.more:hover,input.more:hover,.submit_btn:hover{ background:var(--ink) !important; color:var(--white) !important; }
+a.more:active,button.more:active,.submit_btn:active{ transform:translateY(1px); }
+.btn_accent,a.btn_accent,button.btn_accent{ background:var(--accent) !important; }
+.btn_accent:hover,a.btn_accent:hover,button.btn_accent:hover{ background:var(--accent-d) !important; }
+.btn_ghost,a.btn_ghost{
+  display:inline-block; background:transparent !important; color:var(--white) !important;
+  border:2px solid rgba(255,255,255,.6) !important; border-radius:24px; padding:9px 22px; font-weight:600;
+  text-transform:uppercase; font-size:13px; letter-spacing:.03em;
+}
+.btn_ghost:hover{ border-color:#fff !important; background:rgba(255,255,255,.1) !important; color:#fff !important; }
+
+/* ---------- Sidebar boxes ---------- */
+.sb_box{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px 18px; margin:0 0 16px 0; box-shadow:var(--shadow);
+}
+.sb_box h3{
+  margin:0 0 12px 0; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink);
+  padding-bottom:9px; border-bottom:2px solid var(--accent); display:inline-block;
+}
+.sb_list{ list-style:none; margin:0; padding:0; }
+.sb_list li{ margin:0; }
+.sb_list li a{
+  display:block; padding:8px 0 8px 16px; color:var(--text); border-bottom:1px solid var(--line);
+  background:url(images/punto_sidebar.png) no-repeat 0 14px;
+}
+.sb_list li:last-child a{ border-bottom:0; }
+.sb_list li a:hover,.sb_list li a.active{ color:var(--accent); }
+.sb_list li a.active{ font-weight:700; }
+
+/* ---------- Tabelle generiche ---------- */
+table.tbl_collapse{ border-collapse:collapse; width:100%; background:var(--card); }
+table.tbl_collapse td{
+	border: 1px solid var(--line);
+	padding: 8px 10px;
+	text-align: left;
+}
+.thead_row td{ background:var(--brand); color:#fff; }
+
+/* ====================================================================== */
+/* =====================  HOME — componenti nuovi  ====================== */
+/* ====================================================================== */
+
+/* Hero */
+.hero{
+  position:relative; border-radius:var(--radius); overflow:hidden; margin:0 0 30px 0;
+  background:var(--ink); box-shadow:var(--shadow);
+  min-height:380px; display:flex; align-items:flex-end;
+}
+.hero_bg{ position:absolute; inset:0; background-size:cover; background-position:center; }
+.hero_bg::after{ content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(14,26,43,.20) 0%, rgba(14,26,43,.55) 55%, rgba(14,26,43,.88) 100%); }
+.hero_inner{ position:relative; padding:40px 44px 44px; max-width:760px; }
+.hero_kicker{ display:inline-block; color:#fff; background:var(--accent); font-size:11px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; padding:5px 12px; border-radius:20px; margin-bottom:16px; }
+.hero h1{ color:#fff; font-size:42px; line-height:1.05; font-weight:800; text-transform:uppercase;
+  letter-spacing:.01em; margin:0 0 14px 0; }
+.hero p{ color:#dbe3ec; font-size:17px; margin:0 0 22px 0; max-width:560px; }
+.hero_cta{ display:flex; gap:12px; flex-wrap:wrap; }
+
+/* Sezioni */
+.section{ margin:0 0 34px 0; }
+.section_head{ margin:0 0 18px 0; }
+.section_head h2{ font-size:24px; font-weight:800; text-transform:uppercase; letter-spacing:.02em; margin:0; }
+.section_head h2 span{ color:var(--accent); }
+.section_head p{ color:var(--muted); margin:6px 0 0 0; }
+
+/* Griglia macro / categorie */
+.macro_grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.macro_card{
+  position:relative; display:block; border-radius:var(--radius); overflow:hidden; min-height:200px;
+  background:var(--navy); box-shadow:var(--shadow); color:#fff;
+}
+.macro_card .mc_img{ position:absolute; inset:0; background-size:cover; background-position:center; transition:transform .4s ease; }
+.macro_card::after{ content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(14,26,43,0) 30%, rgba(14,26,43,.85) 100%); }
+.macro_card:hover .mc_img{ transform:scale(1.06); }
+.macro_card .mc_body{ position:absolute; left:0; right:0; bottom:0; padding:16px 18px; z-index:2; }
+.macro_card .mc_body h3{ color:#fff; margin:0; font-size:16px; text-transform:uppercase; letter-spacing:.03em; }
+.macro_card .mc_body span{ display:inline-block; margin-top:6px; font-size:12px; color:#cfd9e4; font-weight:600; }
+.macro_card:hover .mc_body span{ color:var(--accent); }
+
+/* Value props */
+.feature_row{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.feature{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); }
+.feature .fi{ width:42px; height:42px; border-radius:10px; background:rgba(228,0,43,.10); color:var(--accent);
+  display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; margin-bottom:12px; }
+.feature h3{ font-size:16px; margin:0 0 6px 0; }
+.feature p{ color:var(--muted); margin:0; font-size:14px; }
+
+/* CTA band */
+.cta_band{
+  background:linear-gradient(135deg,var(--ink),var(--brand)); color:#fff; border-radius:var(--radius);
+  padding:30px 34px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  box-shadow:var(--shadow);
+}
+.cta_band h2{ color:#fff; margin:0 0 6px 0; font-size:24px; text-transform:uppercase; }
+.cta_band p{ color:#cdd8e4; margin:0; }
+
+/* Listing recenti */
+.listing_grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.listing_card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); transition:transform .12s ease,box-shadow .12s ease; display:block; color:var(--text); }
+.listing_card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-h); }
+.listing_card .lc_img{ display:block; height:130px; background:#e9edf2 center/cover no-repeat; }
+
+/* ====================================================================== */
+/* ===========================  FOOTER scuro  =========================== */
+/* ====================================================================== */
+#templatemo_bottom{
+  width:auto !important; background:var(--ink) !important; color:#aebccc !important;
+  border-radius:var(--radius) var(--radius) 0 0; padding:34px 30px 14px !important; margin-top:30px !important;
+}
+#templatemo_bottom .col_4{ width:23% !important; margin-right:2.6% !important; }
+#templatemo_bottom .col_4.col_l,#templatemo_bottom .col_4.rmc{ margin-right:0 !important; }
+#templatemo_bottom h5{ color:#fff !important; font-size:13px; text-transform:uppercase; letter-spacing:.08em;
+  margin:0 0 14px 0; padding-bottom:9px; border-bottom:2px solid var(--accent); display:inline-block; }
+#templatemo_bottom ul.footer_link{ list-style:none; margin:0; padding:0; }
+#templatemo_bottom ul.footer_link li{ margin:0 0 7px 0; background:none !important; padding:0 !important; }
+#templatemo_bottom ul.footer_link li a{ color:#aebccc !important; font-size:14px; }
+#templatemo_bottom ul.footer_link li a:hover{ color:#fff !important; }
+#templatemo_footer{
+  width:auto !important; background:#0a131f !important; color:#7e8ea0 !important; text-align:center;
+  padding:16px 20px !important; border-radius:0 0 var(--radius) var(--radius); font-size:13px;
+}
+#templatemo_footer a{ color:#aebccc !important; }
+#templatemo_footer a:hover{ color:#fff !important; }
+
+/* ====================================================================== */
+/* ============================  RESPONSIVE  ============================ */
+/* ====================================================================== */
+@media (max-width:1000px){
+  .macro_grid,.feature_row{ grid-template-columns:repeat(2,1fr); }
+  .listing_grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:860px){
+  #templatemo_header{ flex-direction:column; align-items:stretch; padding:0 16px !important; }
+  #site_title{ padding:14px 0 6px; text-align:center; }
+  #site_title .site_brand a{ justify-content:center; }
+  #templatemo_header #templatemo_menu{ width:100% !important; }
+  #templatemo_header .ddsmoothmenu ul{ display:flex; flex-wrap:wrap; justify-content:center; }
+  #templatemo_header .ddsmoothmenu ul li a{ line-height:46px !important; padding:0 11px !important; }
+  #templatemo_header .ddsmoothmenu ul li ul{ position:static; width:100%; box-shadow:none; background:transparent !important; }
+  #templatemo_content,#templatemo_sidebar{ float:none !important; width:100% !important; }
+  #templatemo_sidebar{ margin-top:22px; }
+  #page_title{ float:none !important; font-size:25px !important; }
+  #search_box{ float:none; margin-top:12px; width:100% !important; }
+  #search_box input#searchfield{ width:100% !important; }
+  .hero h1{ font-size:30px; }
+  .hero_inner{ padding:28px 24px 30px; }
+  #templatemo_bottom .col_4{ width:48% !important; margin-right:2% !important; margin-bottom:18px; }
+}
+@media (max-width:520px){
+  #templatemo_wrapper{ padding:0 12px 32px !important; }
+  .macro_grid,.feature_row,.listing_grid{ grid-template-columns:1fr; }
+  .cta_band{ flex-direction:column; align-items:flex-start; }
+  #templatemo_bottom .col_4{ width:100% !important; margin-right:0 !important; }
+  .hero h1{ font-size:25px; }
+}
+/* ===================  fine RESTYLE 2026  ============================== */
+
+
+/* ============  RESTYLE 2026 — addendum componenti  ==================== */
+/* Form, badge, messaggi, liste annunci/gallery. Additivo, classi esistenti. */
+
+/* ---------- Controlli form ---------- */
+body input[type="text"], body input[type="email"], body input[type="password"],
+body input[type="number"], body input[type="tel"], body input[type="url"],
+body input[type="search"], body .input_field, body textarea, body select{
+  font-family:var(--sans); font-size:14px; color:var(--text);
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius-sm);
+  padding:10px 12px; max-width:100%; transition:border-color .15s ease, box-shadow .15s ease;
+}
+body textarea{ line-height:1.5; }
+body input[type="text"]:focus, body input[type="email"]:focus, body input[type="password"]:focus,
+body input[type="number"]:focus, body input[type="tel"]:focus, body input[type="url"]:focus,
+body .input_field:focus, body textarea:focus, body select:focus{
+  outline:0; border-color:var(--accent); box-shadow:0 0 0 3px rgba(228,0,43,.12);
+}
+/* il campo ricerca header ha gia' il suo stile (ID) e resta invariato */
+body label{ font-weight:600; color:var(--ink); }
+body .control--checkbox{ font-weight:400; }
+
+/* ---------- Badge (pill) ---------- */
+.badges{ margin:0 0 10px 0; display:flex; flex-wrap:wrap; gap:6px; }
+.badge{ display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em;
+  text-transform:uppercase; padding:4px 11px; border-radius:20px; line-height:1.3;
+  background:#eef1f5; color:var(--muted); }
+.badge_premium{ background:var(--accent); color:#fff; }
+.badge_featured{ background:#c8962b; color:#fff; }
+.badge_type{ background:rgba(27,42,65,.08); color:var(--brand); }
+.badge_cond{ background:#eef1f5; color:var(--text); }
+
+/* ---------- Messaggi ---------- */
+.error-msg{ background:#fdecee; border:1px solid #f6c2c9; color:#9b1c2c; border-radius:var(--radius-sm);
+  padding:11px 14px; margin:0 0 14px 0; font-size:14px; }
+
+
+/* ---------- Post meta (riga azioni) ---------- */
+.post_meta{
+	padding-top: 0px;
+	border-top: 1px solid var(--line);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.post_meta .float_r{ margin-left:auto; float:none !important; }
+
+/* ---------- Gallery / thumbnail annunci ---------- */
+.gallery{ list-style:none; margin:14px 0; padding:0; display:flex; flex-wrap:wrap; gap:10px; }
+.gallery.m0{ margin:0 0 12px 0; }
+/* FIX 23 lug 2026 - bordo thumbnail piu' piccolo dell'immagine.
+   La regola legacy piu' in alto dava al <li>: width:220px; height:150px;
+   border:1px solid #ccc; padding:5px. Questo addendum azzerava solo margin e
+   padding, lasciando BORDO e DIMENSIONI. Con box-sizing:border-box globale il
+   <li> aveva quindi un contenuto di 218x148, mentre l'<a> interno e' 220x150:
+   l'immagine sborda di 2px e il bordo del <li> appare piu' piccolo di lei
+   (oltre a disegnare una seconda cornice #ccc sfalsata).
+   La cornice, per progetto, sta sull'<a> (o sull'<img> in .ad_detail): qui il
+   <li> torna neutro e si adatta al contenuto. */
+.gallery li{ margin:0; padding:0; background:none;
+  border:0; width:auto; height:auto; float:none; }
+/* Gallerie senza <a> (es. il selettore immagini in _admin/admin_hero.php):
+   la cornice va sull'<img>, che altrimenti resterebbe nudo. Nei casi con <a>
+   vince .gallery li a img{border:0} perche' piu' specifica. */
+.gallery li > img{ border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
+.gallery li img{ display:block; max-width:100%; height:auto; }
+/* Cornice sul CONTENITORE (a fisso 220x150): il bordo e' sempre un rettangolo
+   perfetto, mai sfalsato; l'immagine dentro sta in object-fit:contain
+   (proporzioni mantenute, mai ritagliata, mai sforata). */
+.gallery li a{ display:flex; align-items:center; justify-content:center;
+  width:220px; height:150px; overflow:hidden;
+  border:1px solid var(--line); border-radius:var(--radius-sm);
+  box-shadow:var(--shadow); background:#fff; box-sizing:border-box; }
+.gallery li a img{ max-width:100%; max-height:100%; width:auto; height:auto;
+  object-fit:contain; object-position:center; border:0; box-shadow:none;
+  float:none; margin:0; display:block; }
+
+.gallery_box .gallery li a{ display:flex; align-items:center; justify-content:center;
+  width:220px; height:150px; overflow:hidden;
+  border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; box-sizing:border-box; }
+.gallery_box .gallery li img{ max-width:100%; max-height:100%; width:auto; height:auto;
+  object-fit:contain; object-position:center; border:0;
+  float:none; margin:0; display:block; }
+/* ===================  fine addendum componenti  ====================== */
+
+
+/* ============  RESTYLE 2026 — webfont Oswald (self-hosted, GDPR-safe)  = */
+/* font-src 'self' nella CSP: nessuna modifica necessaria. File in /fonts/. */
+@font-face{
+  font-family:"Oswald";
+  src:url("fonts/oswald-var.woff2") format("woff2");
+  font-weight:200 700; font-style:normal; font-display:swap;
+}
+:root{ --display:"Oswald", var(--sans); }
+/* Titoli, nav, wordmark, page title, hero: grottesco condensato motorsport */
+h1,h2,h3,.section_head h2,.hero h1,.cta_band h2,
+#page_title,.brand_word,
+#templatemo_header .ddsmoothmenu ul li a,
+#templatemo_bottom h5,.sb_box h3,
+.macro_card .mc_body h3,.hero_kicker{
+  font-family:var(--display) !important;
+  letter-spacing:.02em;
+}
+.hero h1,.section_head h2,.cta_band h2,#page_title{ font-weight:600 !important; }
+.brand_word{ letter-spacing:.12em; }
+/* ===================  fine webfont  ================================== */
+/* ============  RESTYLE 2026 - header/footer full-bleed  ============== */
+/* box-shadow+clip-path: barra scura edge-to-edge SENZA overflow/scroll;   */
+/* lo sticky funziona, il contenuto resta nella colonna centrale.          */
+#templatemo_header{
+  box-shadow:0 0 0 100vmax var(--ink); clip-path:inset(0 -100vmax);
+  border-radius:0 !important; position:sticky; top:0; z-index:1000;
+  margin-bottom:24px !important;
+}
+#templatemo_bottom{ box-shadow:0 0 0 100vmax var(--ink); clip-path:inset(0 -100vmax); border-radius:0 !important; }
+#templatemo_footer{ box-shadow:0 0 0 100vmax #0a131f; clip-path:inset(0 -100vmax); border-radius:0 !important; }
+/* ===================  fine full-bleed  =============================== */
+
+
+/* ============  RESTYLE 2026 — pagine annunci/dettaglio  ============== */
+
+/* Galleria immagini: disposizione orizzontale affiancata */
+.post_box .gallery.m0 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    float: none;
+    margin: 0 0 12px 0;
+}
+
+.post_box .gallery.m0 li {
+    width: auto;
+    float: none;
+}
+.post_box .gallery.m0 li a{ display:flex; align-items:center; justify-content:center;
+  width:240px; height:165px; overflow:hidden; background:#fff;
+  border:1px solid var(--line); border-radius:var(--radius-sm); box-sizing:border-box; }
+.post_box .gallery.m0 li img{ max-width:100%; max-height:100%; width:auto; height:auto;
+  object-fit:contain; object-position:center; }
+
+/* Directory fornitori: nella card m0 il logo azienda va CONTENUTO (non ritagliato
+   come le foto cover degli annunci). Uniforma la card a browse mantenendo il logo leggibile. */
+.supplier_box .gallery.m0 li img{ object-fit:contain !important; background:#fff; padding:6px; }
+.post_box .price{ font-family:var(--display); font-size:24px; font-weight:600; color:var(--ink); margin:8px 0; }
+.post_box:has(.gallery.m0){ transition:transform .12s ease, box-shadow .12s ease; }
+.post_box:has(.gallery.m0):hover{ transform:translateY(-2px); box-shadow:var(--shadow-h); }
+.post_box .post_meta .cat{
+	color: var(--muted);
+	font-size: 13px;
+	text-align: left;
+}
+@media (max-width:560px){
+  .post_box .gallery.m0{ float:none; width:100%; margin:0 0 12px 0; }
+  .post_box .gallery.m0 li img{ width:100%; height:auto; }
+}
+
+/* Scheda annuncio singola (#contact_form.ad_detail) */
+.ad_detail .gallery_box{ margin-bottom:18px; }
+.ad_detail .gallery_box .gallery{ display:block; }
+.ad_detail .gallery_box .gallery li a{ display:flex; align-items:center; justify-content:center;
+  width:auto; max-width:280px; height:auto; border:0; box-shadow:none; }
+.ad_detail .gallery_box .gallery li img{ display:block; width:auto; height:auto;
+  max-width:100%; max-height:200px; object-fit:contain;
+  border-radius:var(--radius); border:1px solid var(--line); box-shadow:var(--shadow); }
+.ad_detail .float_l{ float:none !important; width:auto !important; display:flex; gap:12px;
+  align-items:baseline; padding:10px 0; margin:0; border-bottom:1px solid var(--line); }
+.ad_detail .float_l strong{ min-width:150px; color:var(--ink); font-weight:700; }
+.ad_detail .price{ font-family:var(--display); font-size:26px; color:var(--ink); }
+/* i pulsanti (Gallery/Tech/PDF/Manage) restano bottoni, non righe-spec */
+.ad_detail .float_r,.ad_detail .more{ border-bottom:0; }
+/* ===================  fine pagine annunci  ========================== */
+
+/* ----- Vista Tech details (sola lettura): tabella leggibile e allineata ----- */
+/* La vista riusa #contact_form ma NON e' un form: la escludo dalle regole
+   form-mobile (label:block, width:100%) che ne scomponevano il layout. */
+#contact_form.tech_view{ background:var(--card); border:1px solid var(--line);
+  border-radius:var(--radius); padding:20px 24px; box-shadow:var(--shadow); max-width:100%; }
+#contact_form.tech_view table{ width:100%; border-collapse:collapse; margin:0; }
+#contact_form.tech_view td{ padding:6px 8px; vertical-align:top; text-align:left;
+  border:0; width:33.33%; }
+#contact_form.tech_view td[colspan="2"]{ width:66.66%; }
+#contact_form.tech_view td[colspan="3"]{ width:100%; }
+#contact_form.tech_view td[align="center"]{ text-align:left; }
+#contact_form.tech_view label,
+#contact_form.tech_view .checkbox{ display:inline; margin:0; font-weight:normal; }
+#contact_form.tech_view strong{ display:inline-block; margin:10px 0 4px; }
+#contact_form.tech_view input[type="checkbox"]{ width:auto; margin-right:6px; vertical-align:middle; }
+#contact_form.tech_view .control--checkbox{ width:auto; }
+/* i valori numerici (Length/Width/Capacity) restano nella loro colonna */
+#contact_form.tech_view td span.checkbox{ display:inline; }
+
+
+
+/* ============  RESTYLE 2026 — directory, form, RFQ, editoriali  ====== */
+
+/* ---------- Directory fornitori: logo azienda a sinistra ---------- */
+/* Anteprima lista generica (es. my_posts): NON forzare 150px; usa il box 220x150
+   centrato definito da .gallery li a. Manteniamo solo il float del blocco. */
+.post_box > ul.gallery:not(.m0){ float:left; width:auto; margin:2px 20px 6px 0; list-style:none; padding:0; }
+.post_box > ul.gallery:not(.m0) li{ margin:0; padding:0; background:none; }
+
+/* ---------- Form (login, registrazione, RFQ, contatti) ---------- */
+#contact_form:not(.ad_detail):not(.tech_view){
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:24px 26px; box-shadow:var(--shadow); max-width:680px;
+}
+#contact_form:not(.ad_detail):not(.tech_view) .float_l,
+#contact_form:not(.ad_detail):not(.tech_view) .float_r{
+	float: none !important;
+	width: 100% !important;
+	margin: 0 0 15px 0;
+	text-align: center;
+}
+#contact_form:not(.ad_detail):not(.tech_view) label{
+	display: block;
+	margin-bottom: 6px;
+	text-align: left;
+}
+#contact_form:not(.ad_detail):not(.tech_view) input[type="text"],
+#contact_form:not(.ad_detail):not(.tech_view) input[type="email"],
+#contact_form:not(.ad_detail):not(.tech_view) input[type="password"],
+#contact_form:not(.ad_detail):not(.tech_view) input[type="number"],
+#contact_form:not(.ad_detail):not(.tech_view) input[type="tel"],
+#contact_form:not(.ad_detail):not(.tech_view) select,
+#contact_form:not(.ad_detail):not(.tech_view) textarea,
+#contact_form:not(.ad_detail):not(.tech_view) .input_field{ width:100%; }
+#contact_form:not(.ad_detail):not(.tech_view) .control--checkbox{ width:auto; }
+#contact_form:not(.ad_detail):not(.tech_view) .more,
+#contact_form:not(.ad_detail):not(.tech_view) button[type="submit"]{
+	margin-top: 6px;
+	text-align: center;
+}
+
+/* Campi anagrafici (Name/Email/Object): stanno in tabelle separate e la
+   colonna etichetta si adattava al testo -> input di larghezze diverse.
+   Colonna etichetta a larghezza FISSA uguale per tutte -> campi allineati
+   e della stessa dimensione. Esclusa la griglia tecnica (.tbl_collapse). */
+#contact_form:not(.ad_detail):not(.tech_view) table:not(.tbl_collapse){ table-layout:fixed; width:100%; }
+#contact_form:not(.ad_detail):not(.tech_view) table:not(.tbl_collapse) td:first-child{ width:120px; white-space:normal; overflow-wrap:anywhere; vertical-align:middle; } /* fix sovrapposizione etichette: da nowrap 90px a wrap 120px */
+#contact_form:not(.ad_detail):not(.tech_view) table:not(.tbl_collapse) td:last-child{ width:auto; }
+#contact_form:not(.ad_detail):not(.tech_view) table:not(.tbl_collapse) td .input_field{ width:100%; box-sizing:border-box; }
+
+/* ---------- Configuratore RFQ: griglia tecnica a chip ---------- */
+.tbl_collapse td .checkbox{ display:inline-flex; align-items:center; gap:7px; line-height:1.3; }
+.tbl_collapse td:has(input[type="checkbox"]) .checkbox{
+  background:#f7f9fc; border:1px solid var(--line); border-radius:20px; padding:6px 12px;
+}
+.tbl_collapse td .checkbox input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--accent); margin:0; }
+.tbl_collapse td .checkbox input[type="text"]{ padding:6px 8px; }
+.tbl_collapse tr.thead_row td{ font-family:var(--display); text-transform:uppercase; letter-spacing:.04em; }
+
+/* ---------- Pagine editoriali (About / What we do / FAQ / Contact) ---------- */
+#no_sidebar .post_box p, #templatemo_content .post_box p{
+	max-width: 74ch;
+	text-align: left;
+}
+.post_box h2{
+	font-size: 22px;
+	text-align: left;
+}
+.post_box h3{
+	font-size: 17px;
+	margin-top: 18px;
+	text-align: left;
+}
+.post_box ul:not(.gallery):not(.sb_list):not(.footer_link):not(.badges){ margin:10px 0 14px 20px; }
+.post_box ul:not(.gallery):not(.sb_list):not(.footer_link):not(.badges) li{
+	margin: 5px 0;
+	text-align: left;
+}
+
+/* ---------- Scheda azienda: link certificati come pill ---------- */
+/* (i link cert nel box Credentials ereditano colore brand; piccolo respiro) */
+.post_box h3 + p strong{ color:var(--ink); }
+/* ===================  fine blocco finale  =========================== */
+
+
+/* ============  FIX header (menu nella barra, testo bianco visibile)  == */
+/* Causa: i <li> in float:left collassano l'altezza -> il menu sforava sotto */
+/* la barra scura su sfondo chiaro. Soluzione: menu come flex, barra con     */
+/* altezza minima. Submenu (ul annidati) restano block, gestiti da JS.       */
+#templatemo_header #templatemo_menu{ display:flex !important; align-items:center; }
+#templatemo_header .ddsmoothmenu > ul{ display:flex !important; align-items:center; flex-wrap:wrap; }
+#templatemo_header .ddsmoothmenu > ul > li{ float:none !important; }
+@media (min-width:861px){
+  #templatemo_header{ min-height:64px; align-items:center; }
+}
+@media (max-width:860px){
+  #templatemo_header{ align-items:stretch; }
+  #templatemo_header .ddsmoothmenu > ul{ justify-content:center; }
+}
+/* ===================  fine FIX header  ============================== */
+
+
+/* ----  FIX header: rinforzo robustezza  ---- */
+#templatemo_header > #site_title,
+#templatemo_header > #templatemo_menu{ align-self:center; }
+#templatemo_header .ddsmoothmenu > br{ display:none !important; }
+@media (min-width:861px){
+  #templatemo_header{ flex-wrap:nowrap; min-height:64px; align-items:center; }
+}
+/* ----  fine rinforzo  ---- */
+
+
+/* ----  Logo header (sostituisce il wordmark testuale)  ---- */
+#site_title{ padding:8px 0 !important; }
+#site_title .site_brand a{ align-items:center !important; gap:12px; }
+#site_title .brand_logo{ height:40px; width:40px; display:block; flex:0 0 auto; background:#fff; border-radius:50%; padding:2px; box-sizing:border-box; }
+/* ----  fine logo header  ---- */
+
+
+/* ----  Fix login: campi piu' lunghi  ---- */
+/* Circoscritto ai form di login/registrazione: i form name="formmail"
+   (Request a quotation, Contact) hanno un input id="email" e venivano
+   forzati a 300px, risultando di larghezza diversa da Name/Object. */
+form:not([name="formmail"]) #email,
+form:not([name="formmail"]) #password{ width:300px !important; max-width:100% !important; }
+/* ----  fine fix login  ---- */
+
+
+/* ----  Home: box feature cliccabili  ---- */
+a.feature{ text-decoration:none; color:inherit; display:block; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+a.feature:hover{ transform:translateY(-2px); box-shadow:0 8px 22px rgba(14,26,43,.12); border-color:var(--accent); }
+/* ----  Header: CTA RFQ persistente  ---- */
+#templatemo_header .ddsmoothmenu > ul > li.nav_cta > a{ background:var(--accent) !important; color:#fff !important; border-radius:22px !important; padding:9px 18px !important; line-height:1 !important; margin-left:8px; box-shadow:none !important; }
+#templatemo_header .ddsmoothmenu > ul > li.nav_cta > a:hover{ filter:brightness(1.08); }
+/* ----  Account dropdown: azione distruttiva separata  ---- */
+.ddsmoothmenu li.nav_danger > a{ color:#c0392b !important; border-top:1px solid var(--line); }
+
+
+/* ----  Browse: faccette (sidebar) + chip filtri attivi  ---- */
+
+
+/* ----  Ponte tassonomia: fornitori correlati / annunci correlati  ---- */
+.rel_suppliers{ margin:18px 0 6px; padding:14px 16px; background:var(--card, #fff); border:1px solid var(--line, #e5e9ee); border-radius:10px; }
+.rel_suppliers h3{ margin:0 0 4px; }
+.rel_sub{ font-size:13px; color:var(--muted); margin:0 0 8px; }
+.rel_list{ list-style:none; margin:0 0 6px; padding:0; display:flex; flex-wrap:wrap; gap:6px 16px; }
+.rel_list li{ margin:0; }
+.rel_macros{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 0; }
+
+
+/* ============  FIX VISIVI 2026-06-24 (audit Portfolio)  ============ */
+/* Barra tratteggiata: residuo background-template su .post_meta (35 pagine).
+   Il restyle dava gia' border-top come separatore: il background e l'altezza
+   fissa del template vanno azzerati. */
+.post_meta{ background:none !important; height:auto !important; min-height:0 !important; }
+/* Freccia ">" del pulsante .more: era ancorata a top:0 del vecchio bottone;
+   sul pill restyle va centrata verticalmente, con spazio a destra. */
+a.more, button.more, input.more, .submit_btn{ padding:9px 22px !important; }
+/* Bullet-immagine assente nelle liste sidebar: niente richiesta 404. */
+.sb_list li a{ background-image:none !important; }
+
+
+/* ----  Seller dashboard: badge status annunci  ---- */
+.badge_approved{ background:#2e7d32; color:#fff; }
+.badge_pending{ background:#b8860b; color:#fff; }
+.badge_rejected{ background:#c0392b; color:#fff; }
+
+
+/* ============  Menu mobile off-canvas (checkbox-hack, no JS)  ============ */
+@media (min-width:861px){
+}
+@media (max-width:860px){
+  /* header in riga: logo a sinistra, hamburger a destra */
+  #templatemo_header{ flex-direction:row !important; align-items:center !important; flex-wrap:nowrap !important;
+    justify-content:space-between !important; padding:0 16px !important; min-height:60px; }
+  #templatemo_header > #site_title{ padding:8px 0 !important; text-align:left !important; align-self:center !important; }
+  #site_title .site_brand a{ justify-content:flex-start !important; }
+
+  /* hamburger */
+
+  /* pannello off-canvas */
+  #templatemo_header > #templatemo_menu{ position:fixed !important; top:0; right:0;
+    width:280px !important; max-width:84vw; height:100vh; height:100dvh; margin:0 !important;
+    background:var(--ink) !important; transform:translateX(100%); transition:transform .25s ease;
+    z-index:1250; overflow-y:auto; padding:62px 0 28px !important; display:block !important;
+    box-shadow:-8px 0 28px rgba(0,0,0,.4); align-self:auto !important; }
+
+  /* scrim cliccabile per chiudere */
+
+  /* hamburger -> X */
+
+  /* lista verticale nel pannello */
+  #templatemo_header .ddsmoothmenu > ul{ display:block !important; width:100%; justify-content:flex-start !important; }
+  #templatemo_header .ddsmoothmenu ul li{ float:none !important; width:100% !important; display:block; position:static; }
+  #templatemo_header .ddsmoothmenu ul li a{ display:block; line-height:1.3 !important; padding:12px 22px !important;
+    color:#dfe6ee !important; border-bottom:1px solid rgba(255,255,255,.06); white-space:normal; }
+  #templatemo_header .ddsmoothmenu ul li a:hover{ background:rgba(255,255,255,.06); box-shadow:none !important; }
+  /* sotto-menu sempre espansi nel pannello (battono lo style inline di ddsmoothmenu) */
+  #templatemo_header .ddsmoothmenu ul li ul{ position:static !important; display:block !important; width:100% !important;
+    box-shadow:none !important; background:rgba(255,255,255,.03) !important; }
+  #templatemo_header .ddsmoothmenu ul li ul li a{ padding-left:36px !important; font-size:14px; color:#aebccc !important; }
+  /* CTA RFQ a tutta larghezza */
+  #templatemo_header .ddsmoothmenu > ul > li.nav_cta > a{ margin:14px 22px !important; text-align:center;
+    border-radius:24px !important; padding:12px 18px !important; }
+  .ddsmoothmenu li.nav_danger > a{ border-top:1px solid rgba(255,255,255,.10) !important; color:#ff8a80 !important; }
+}
+/* scroll-lock progressivo quando il pannello e' aperto (browser con :has) */
+
+
+/* ============  FIX DETTAGLI 2026-06-25 (pulsanti + admin)  ============ */
+/* MORE: da navy (--brand) a rosso accent, coerente con search e CTA. */
+a.more, button.more, input.more, .submit_btn{ background:var(--accent) !important; }
+a.more:hover, button.more:hover, input.more:hover, .submit_btn:hover{
+	background: var(--accent-d) !important;
+	color: var(--white) !important;
+	text-align: right;
+}
+/* Freccia ">" del MORE: ancoraggio relativo + centratura verticale robusta. */
+a.more, button.more{ position:relative !important; }
+a.more::after, button.more::after{ top:50% !important; bottom:auto !important; transform:translateY(-50%) !important; right:14px !important; line-height:1 !important; }
+/* (Pulsante ricerca: posizionamento consolidato nel blocco #search_box sopra.) */
+/* Barra tratteggiata residua: rinforzo (anche nav admin in .post_box .post_meta). */
+.post_meta, .post_box .post_meta{
+	background: none !important;
+	height: auto !important;
+	min-height: 0 !important;
+}
+
+/* --- Footer card annuncio: banda tratteggiata a tutta larghezza che CONTIENE
+   autore/data (sx) e pulsante (dx), centrati verticalmente. Bleed ai bordi
+   della card (padding 22/20) che ha overflow:hidden+radius -> angoli arrotondati
+   ereditati e nessuno sbordamento. Scope solo card annuncio (.gallery.m0). --- */
+.post_box:has(.gallery.m0) .post_meta{
+  margin:16px -22px -20px -22px !important;
+  padding:12px 22px !important;
+  background:repeating-linear-gradient(135deg,#eaeff4 0,#eaeff4 6px,#dfe6ee 6px,#dfe6ee 12px) !important;
+  border-top:1px solid var(--line) !important;
+  height:auto !important; min-height:0 !important;
+  display:flex !important; align-items:center; justify-content:space-between !important;
+  flex-wrap:wrap; gap:8px 12px; line-height:1.4 !important;
+}
+/* Centratura verticale nella banda: nessun margine verticale residuo sui figli
+   (autore/data a sx, pulsante a dx, tutti allineati al centro della fascia). */
+.post_box:has(.gallery.m0) .post_meta > *{ margin-top:0 !important; margin-bottom:0 !important; align-self:center; }
+.post_box:has(.gallery.m0) .post_meta a.more{ float:none !important; }
+
+/* Freccia rimossa dai pulsanti .more (guardia definitiva). */
+a.more::after, button.more::after{ content:none !important; }
+
+
+/* Header admin: brand allineato come nel sito. */
+#templatemo_header #site_title .site_brand a{ display:inline-flex; align-items:center; gap:12px; }
+
+
+/* ============================================================
+   RESPONSIVE MOBILE 2026-06-25
+   Base gia' presente (wrapper fluido, content/sidebar che impilano,
+   menu off-canvas). Qui si chiudono i buchi residui: tabelle dati,
+   larghezze fisse del vecchio template, form e tipografia su small screen.
+   ============================================================ */
+
+/* --- Larghezze fisse residue del template -> fluide ovunque --- */
+#comment_section{ width:auto !important; max-width:100% !important; }
+#contact_form form textarea, #contact_form textarea{ width:100% !important; max-width:100% !important; box-sizing:border-box; }
+
+/* --- Campi form fluidi e media che non sforano --- */
+input[type=text], input[type=email], input[type=password], input[type=number],
+input[type=search], input[type=url], input[type=tel], select, textarea{
+  max-width:100% !important; box-sizing:border-box;
+}
+img, video, table, pre, iframe{ max-width:100%; }
+
+@media (max-width:860px){
+  /* Tabelle dati larghe (area admin) -> scroll orizzontale, layout intatto */
+  .admin_table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+  /* Form di contatto/RFQ a piena larghezza */
+  #contact_form, #contact_form form{ width:100% !important; max-width:100% !important; }
+  /* Box un filo piu' compatti */
+  .post_box{ padding-left:16px; padding-right:16px; }
+  /* Tabelle generiche centrate del template (es. success page) non sforano */
+  #templatemo_content table[align="center"], #templatemo_content table[width]{ width:100% !important; }
+}
+
+@media (max-width:520px){
+  /* Titoli di contenuto piu' compatti (NON il brand nell'header) */
+  #templatemo_content h1, #content_top #page_title{ font-size:24px !important; }
+  #templatemo_content h2{ font-size:19px !important; }
+  /* Chip-bar famiglie/faccette: scroll orizzontale invece di andare a capo */
+  
+  
+  /* Tap target piu' comodi */
+  a.more, button.more, input.more{
+	padding-bottom: 11px !important;
+}
+}
+
+a.more, 
+button.more, 
+input.more, 
+.submit_btn,
+.btn_accent, 
+a.btn_accent, 
+button.btn_accent {
+    display: inline-flex !important;
+    align-items: center;       /* Allinea il testo verticalmente al centro */
+    justify-content: center;   /* Allinea il testo orizzontalmente (modificalo se preferisci text-align: left) */
+}
+
+/* ============================================================
+   27 lug 2026 — stili aggiunti con la revisione UX/CRO.
+   Solo blocchi nuovi in coda: nessuna regola esistente e' stata
+   modificata, quindi il resto del sito e' invariato.
+   ============================================================ */
+
+/* Salto al contenuto: fuori schermo finche' non riceve il fuoco da tastiera. */
+.skip_link{
+  position:absolute; left:-9999px; top:0; z-index:1000;
+  background:#111; color:#fff; padding:10px 16px; border-radius:0 0 4px 0;
+  text-decoration:none;
+}
+.skip_link:focus{ left:0; }
+
+/* Campo trappola anti-bot: invisibile ma non display:none, che alcuni bot
+   riconoscono; fuori dal flusso e fuori dall'ordine di tabulazione. */
+.hp_field{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+
+/* --- Modulo verticale (registrazione e affini) --- */
+.aow_form fieldset{ border:1px solid #e3e3e3; border-radius:6px; padding:16px 18px; margin:0 0 18px; }
+.aow_form legend{ font-weight:700; padding:0 6px; }
+.aow_form .field{ margin:0 0 14px; }
+.aow_form .field label{ display:block; font-weight:600; margin-bottom:4px; }
+.aow_form .field input[type="text"],
+.aow_form .field input[type="email"],
+.aow_form .field input[type="tel"],
+.aow_form .field input[type="password"],
+.aow_form .field input[type="file"],
+.aow_form .field select{ width:100%; box-sizing:border-box; }
+.aow_form .field_hint{ display:block; font-size:12px; color:#666; margin-top:4px; }
+.aow_form .req{ color:#c0392b; }
+.form_error{ border-left:4px solid #c0392b; background:#fdecee; }
+.error{ color:#9b1c2c; }
+.done{ color:#1e7a46; }
+
+/* --- Ricerca senza risultati: quattro strade invece di un vicolo cieco --- */
+.empty_state .es_actions{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:16px; margin:18px 0 8px;
+}
+.empty_state .es_card{ border:1px solid #e3e3e3; border-radius:6px; padding:14px 16px; background:#fafafa; }
+.empty_state .es_card h3{ margin:0 0 6px; font-size:15px; }
+.empty_state .es_card p{ margin:0 0 10px; font-size:13px; }
+.empty_state .es_form label{ display:block; font-weight:600; font-size:13px; margin-bottom:4px; }
+.empty_state .es_form input[type="email"], .empty_state .es_form select{ width:100%; box-sizing:border-box; margin-bottom:8px; }
+
+/* --- Paginazione del marketplace --- */
+.aow_pager{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:16px 0; }
+.aow_pager .pg{
+  display:inline-block; padding:6px 11px; border:1px solid #ddd; border-radius:4px;
+  text-decoration:none; line-height:1.2;
+}
+.aow_pager .pg:hover{ border-color:#999; }
+.aow_pager .pg_cur{ background:#111; color:#fff; border-color:#111; font-weight:700; }
+.aow_pager .pg_gap{ padding:0 2px; color:#888; }
+
+/* Conteggio risultati accanto al titolo della pagina. */
+.result_count{ font-size:13px; font-weight:400; opacity:.75; margin-left:10px; }
+
+/* Briciole di pane sopra il titolo della scheda annuncio. */
+.aow_crumbs{ font-size:12px; color:#666; margin:0 0 6px; }
+.aow_crumbs a{ color:#666; text-decoration:none; }
+.aow_crumbs a:hover{ text-decoration:underline; }
+.aow_crumbs [aria-current="page"]{ color:#111; }
+
+/* ===== P1.9/P1.10/P1.11 Accessibility (EAA / WCAG 2.1 AA) ===== */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+#templatemo_menu li:focus-within > ul { display: block; }
+.skip_link { position:absolute; left:-9999px; top:0; background:#111; color:#fff; padding:8px 12px; z-index:3000; }
+.skip_link:focus { left:8px; }
+.aow-lb { position:fixed; inset:0; background:rgba(0,0,0,.78); display:flex; align-items:center; justify-content:center; z-index:2000; }
+.aow-lb[hidden] { display:none; }
+.aow-lb__box { position:relative; max-width:92vw; max-height:90vh; }
+.aow-lb__img { max-width:92vw; max-height:82vh; display:block; margin:0 auto; background:#fff; }
+.aow-lb__cap { color:#fff; text-align:center; margin:8px 0 0; font-size:13px; }
+.aow-lb__close, .aow-lb__prev, .aow-lb__next { position:absolute; background:rgba(0,0,0,.6); color:#fff; border:0; font-size:28px; line-height:1; padding:4px 12px; cursor:pointer; border-radius:4px; }
+.aow-lb__close { top:-10px; right:-10px; } .aow-lb__prev { left:-10px; top:50%; transform:translateY(-50%); } .aow-lb__next { right:-10px; top:50%; transform:translateY(-50%); }
+.aow-lb button:focus-visible { outline:3px solid #fff; }
+
+/* P2.14: CTA Request quotation sticky su mobile */
+.aow-sticky-cta { display:none; }
+@media (max-width: 768px) {
+  .aow-sticky-cta { display:block; position:fixed; left:0; right:0; bottom:0; z-index:1500; background:#cc0018; color:#fff; text-align:center; padding:14px; font-weight:bold; text-decoration:none; box-shadow:0 -2px 8px rgba(0,0,0,.25); }
+  .aow-sticky-cta:hover, .aow-sticky-cta:focus { background:#a30013; color:#fff; }
+  #templatemo_content { padding-bottom: 64px; }
+}
+
+/* P2.12/P3.16: menu CSS-driven (senza jQuery/ddsmoothmenu) + CTA */
+#templatemo_menu ul li ul { display:none; position:absolute; }
+#templatemo_menu ul li:hover > ul, #templatemo_menu ul li:focus-within > ul { display:block; }
+#templatemo_menu .nav_cta a { background:#cc0018; color:#fff; border-radius:4px; padding:6px 14px; }
+#templatemo_menu .nav_cta a:hover, #templatemo_menu .nav_cta a:focus { background:#a30013; color:#fff; }

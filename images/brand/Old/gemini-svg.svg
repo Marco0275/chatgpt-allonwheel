@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
+  <!-- Definizioni di gradienti e ombre per un look moderno -->
+  <defs>
+    <linearGradient id="speedRedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2A2A"/>
+      <stop offset="100%" stop-color="#B30000"/>
+    </linearGradient>
+    <linearGradient id="carbonGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#333333"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Elemento 1: La Ruota / L'Asfalto (Anello dinamico spezzato per indicare movimento e aderenza) -->
+  <path d="M150,35 
+           C86.5,35 35,86.5 35,150 
+           C35,213.5 86.5,265 150,265 
+           C213.5,265 265,213.5 265,150 
+           C265,115.5 249.7,84.4 225.1,64.2" 
+        fill="none" 
+        stroke="url(#carbonGradient)" 
+        stroke-width="26" 
+        stroke-linecap="round" 
+        transform="rotate(-15 150 150)"/>
+
+  <!-- Elemento 2: Il Dinamismo / L'Aerodinamica (Freccia centrale rossa, stilizzazione della 'A') -->
+  <path d="M85,185 
+           L150,55 
+           L215,185 
+           L150,140 Z" 
+        fill="url(#speedRedGradient)"
+        transform="skewX(-10) translate(15, 0)"/>
+        
+  <!-- Elemento 3: Dettaglio Motorsport (Traccia del pneumatico o chicane) -->
+  <path d="M125,215 L150,185 L175,215" 
+        fill="none" 
+        stroke="#1A1A1A" 
+        stroke-width="12" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        transform="skewX(-10) translate(15, 0)"/>
+</svg>

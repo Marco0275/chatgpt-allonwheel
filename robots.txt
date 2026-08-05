@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /_admin/
+Disallow: /scripts/
+Disallow: /config/
+Disallow: /js/
+Disallow: /sql/
+Disallow: /upload_image/
+Disallow: /vendor/
+Disallow: /cron/
+Disallow: /_admin/
+Disallow: /css_pirobox/
+Allow: /
+
+Sitemap: https://www.allonwheel.com/sitemap.xml

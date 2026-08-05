@@ -1,0 +1,1 @@
+*/5 * * * * /usr/bin/php /home/TUO_ACCOUNT/public_html/cron/cron_ai.php >/dev/null 2>&1
